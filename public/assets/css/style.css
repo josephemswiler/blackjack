@@ -1,0 +1,15 @@
+body {
+    color: #555
+}
+
+
+.exit-nav,
+.profile-screen,
+.leaders-screen,
+.about-screen {
+    display: none;
+}
+
+.fa-google {
+    font-size: 120px;
+}
