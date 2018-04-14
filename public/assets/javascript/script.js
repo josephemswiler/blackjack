@@ -32,6 +32,10 @@
         // ...
     })
 
+    const addCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
     $('.nav-link').click(function () {
         $('.container').hide()
         $(`.${this.dataset.screen}-screen`).show()
@@ -73,6 +77,42 @@
 
     loadFavorites(`Joseph "King of Hearts"`)
     loadFavorites(`Jenny "Big Time"`)
+
+    function loadLeaders(name, chips) {
+        // for (var i = 0; i < savedNames.length - 1; i++) {
+        let addBtn = $('<button>')
+            .addClass('btn btn-light fav-user-btn')
+            .attr({
+                type: 'submit'
+            })
+            .text(name) //insideList[i].userName)
+        let user = $('<i>')
+            .addClass('fas fa-user text-success mr-3')
+            .attr({
+                'data-toggle': 'tooltip',
+                'data-placement': 'top',
+                title: 'User is online!'
+            })
+        let star = $('<i>')
+            .addClass('far fa-star text-dark mr-3')
+        let item = $('<li>')
+            .addClass('list-group-item text-left')
+            .append(star, user, addBtn)
+        let formattedChips = addCommas(chips)
+        let score = $('<button>')
+            .addClass('close text-right disabled')
+            .attr({
+                type: 'button'
+            })
+            .text(`$ ${formattedChips}`)
+
+        item.append(score)
+        $('.leader-users').prepend(item)
+        // }
+    }
+
+    loadLeaders(`Gerald "The Beast"`, 3000)
+    loadLeaders(`Monster "Mon"`, 2000)
 
     $(document).on("click", ".fa-star", function () {
         $(this)
