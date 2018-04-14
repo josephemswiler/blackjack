@@ -33,11 +33,9 @@
     })
 
     $('.nav-link').click(function () {
-        console.log(this.dataset.screen)
         $('.container').hide()
         $(`.${this.dataset.screen}-screen`).show()
     })
-
 
     function loadFavorites(name) {
         // for (var i = 0; i < savedNames.length - 1; i++) {
@@ -49,6 +47,11 @@
             .text(name) //insideList[i].userName)
         let user = $('<i>')
             .addClass('fas fa-user text-success mr-3')
+            .attr({
+                'data-toggle': 'tooltip',
+                'data-placement': 'top',
+                title: 'User is online!'
+            })
         let star = $('<i>')
             .addClass('far fa-star text-dark mr-3')
         let item = $('<li>')
@@ -66,20 +69,24 @@
         item.append(close)
         $('.fav-users').prepend(item)
         // }
-
-
     }
 
     loadFavorites(`Joseph "King of Hearts"`)
+    loadFavorites(`Jenny "Big Time"`)
 
     $(document).on("click", ".fa-star", function () {
-        //if has class far, fas
         $(this)
-            .toggleClass('far fa-star text-dark')
-            .toggleClass('fas fa-star text-warning')
+            .toggleClass('text-dark')
+            .toggleClass('text-warning')
+
+        if ($(this)[0].dataset.prefix === 'far') {
+            $(this)[0].dataset.prefix = 'fas'
+        } else {
+            $(this)[0].dataset.prefix = 'far'
+        }
     })
 
-    function loadSavedUsers() {
+    function loadSavedUsers() { //here refactor local storage then delete
         $('.saved-profiles').empty();
         let insideList = JSON.parse(localStorage.getItem('localUsers'));
         if (insideList) {
@@ -113,32 +120,4 @@
             $('.saved-profiles').prepend(item);
         }
     }
-
-    // let div = $('<div>')
-    //     .addClass('fav-user')
-    // let button = $('<button>')
-    //     .attr('type', 'button')
-    //     .addClass('btn btn-block btn-dark mb-2 fav-user-btn')
-    // let status = $('<i>')
-    //     .addClass('far fa-star text-right') //add .close for close function
-    //     .text('close')
-    // let star = $('<i>')
-    //     .addClass('fas fa-star text-left fav-user-star new-star') //far fa-star - outline star //fas fa-star - full star
-    // let user = $('<i>')
-    //     .addClass('fas fa-user text-left') //fas fa-user
-    //     .text('place')
-    // let p = $('<p>')
-    //     .addClass('left')
-    //     .text(text)
-    // if(currentFavorites.includes(text)) {
-    //     star
-    //         .removeClass('grey-text text-darken-1')
-    //         .addClass('deep-orange-text text-lighten-1')
-    //         .text('star')
-    // }
-    // button.append(close).append(star).append(user).append(p)
-    // div.append(button)
-    // $('.fav-users').append(div)
-
-
 })() //IIFE
