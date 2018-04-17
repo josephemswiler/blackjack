@@ -36,18 +36,21 @@
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    let fs = require('fs-extra')
-    let markdownIt = require('markdown-it'), md = new MarkdownIt()
+    let converter = new showdown.Converter()
 
-    fs.readFile('../README.md', 'utf8')
-        .then(data => {
-            $('.about-readme').html(md.render(data))
-        }).catch(err => console.log(err))
+    $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
+        $.get(response.download_url, function (data) {
+            let html = converter.makeHtml(data)
+            $('.about-readme').html(html)
+        })
+    })
 
     $('.nav-link').click(function () {
         $('.container').hide()
         $(`.${this.dataset.screen}-screen`).show()
     })
+
+
 
     function loadFavorites(name) {
         // for (var i = 0; i < savedNames.length - 1; i++) {
