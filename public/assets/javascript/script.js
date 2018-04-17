@@ -49,7 +49,7 @@
             $('.about-readme h1').append(hr)
             $('.about-readme ul').addClass('list-group list-group-item-action')
             $('.about-readme li').addClass('list-group-item list-group-item-action')
-            $('.about-readme a').attr('target', '_blank')
+            $('.about-readme a').attr('target', '_blank') 
 
         })
     })
