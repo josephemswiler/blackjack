@@ -34,7 +34,15 @@
 
     const addCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      }
+    }
+
+    let fs = require('fs-extra')
+    let markdownIt = require('markdown-it'), md = new MarkdownIt()
+
+    fs.readFile('../README.md', 'utf8')
+        .then(data => {
+            $('.about-readme').html(md.render(data))
+        }).catch(err => console.log(err))
 
     $('.nav-link').click(function () {
         $('.container').hide()

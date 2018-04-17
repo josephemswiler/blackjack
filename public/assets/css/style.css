@@ -13,3 +13,7 @@ body {
 .fa-google {
     font-size: 120px;
 }
+
+td {
+    text-align: right;
+}
