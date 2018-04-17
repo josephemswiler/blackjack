@@ -2,6 +2,11 @@ body {
     color: #555
 }
 
+html,
+body {
+    height: auto;
+    min-height: 100vh;
+}
 
 .exit-nav,
 .profile-screen,

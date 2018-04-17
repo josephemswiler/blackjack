@@ -146,6 +146,28 @@
         }
     })
 
+    $('.invite-btn').click(function() {
+        
+
+        $('html, body').animate({
+            scrollTop: ($(this).offset().top)
+        }, 500)
+
+        event.preventDefault()
+
+        console.log($('.invite-username').val().trim())
+
+        $(this).attr({
+            href: "mailto:someone@yoursite.com?cc=someoneelse@theirsite.com, another@thatsite.com, me@mysite.com&bcc=lastperson@theirsite.com&subject=Big%20News&body=Body-goes-here"
+        })
+    })
+
+    $(document).on("click", ".fa-user", function () { //here
+        $(this)
+            .toggleClass('text-success')
+            .toggleClass('text-danger')
+    })
+
     function loadSavedUsers() { //here refactor local storage then delete
         $('.saved-profiles').empty();
         let insideList = JSON.parse(localStorage.getItem('localUsers'));
