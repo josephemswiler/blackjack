@@ -76,52 +76,46 @@
                             <span class="input-group-text" id="basic-addon2">@gmail.com</span>
                         </div>
                     </div>
-
                     <p class="card-text">Or select from other users currently online below! Star a user to save them as a favorite user in your
                         list below! If any of your favorite users are not online, select them to send them an invite to your
                         game!
                     </p>
                     <ul class="list-group list-group-flush fav-users">
                         <li>
-
                             <button class="btn btn-block btn-dark mt-4 invite-btn" type="button" data-toggle="collapse" data-target="#collapseExample"
                                 aria-expanded="false" aria-controls="collapseExample">
                                 Invite a Google user to play!
                             </button>
-
                             <div class="collapse" id="collapseExample">
                                 <div class="card card-body mt-4 text-left">
                                     <form>
-                                        <!-- <div class="form-group">
-                                            <label for="exampleFormControlInput1">Email address</label>
-                                            <input type="text" class="form-control invite-username" placeholder="Recipient's username" aria-label="Recipient's username"
-                                                    aria-describedby="basic-addon2">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="basic-addon2">@gmail.com</span>
-                                                </div>
-                                        </div> -->
                                         <label for="exampleFormControlInput1">Email address</label>
-                                        <div class="input-group mb-3">
-                                                
-                                                <input type="text" class="form-control invite-username" placeholder="Recipient's username" aria-label="Recipient's username"
-                                                    aria-describedby="basic-addon2">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="basic-addon2">@gmail.com</span>
-                                                </div>
+                                        <div class="input-group mb-3 invite-input">
+                                            <input type="text" class="form-control invite-username" placeholder="Recipient's username" aria-label="Recipient's username"
+                                                aria-describedby="basic-addon2">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">@gmail.com</span>
                                             </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Subject</label>
-                                            <input class="form-control" type="text" placeholder="Default input">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid Google Account.
+                                            </div>
+                                            <div class="valid-feedback">
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Example textarea</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <label for="exampleFormControlSelect1">Subject</label>
+                                            <input class="form-control" type="text" value="Let's Play Blackjack!">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Message</label>
+                                            <textarea class="form-control email-message" id="exampleFormControlTextarea1" rows="8">
+                                                <a href="https://github.com/josephemswiler/blackjack">Play Blackjack</a>
+                                            </textarea>
                                         </div>
                                         <a target="_blank" role="button" class="btn btn-block btn-success mt-3 send-invite-btn" href="#">Send Invite</a>
                                     </form>
                                 </div>
                             </div>
-                            
                         </li>
                     </ul>
                 </div>

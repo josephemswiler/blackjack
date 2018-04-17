@@ -37,19 +37,19 @@
     }
 
     let converter = new showdown.Converter()
-    
+
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
         $.get(response.download_url, function (data) {
             let html = converter.makeHtml(data)
             $('.about-readme').html(html)
-        }).then(function(){
+        }).then(function () {
             let hr = $('<hr>')
                 .addClass('my-4')
             $('.about-readme h1').append(hr)
             $('.about-readme ul').addClass('list-group list-group-item-action')
             $('.about-readme li').addClass('list-group-item list-group-item-action')
-            $('.about-readme a').attr('target', '_blank') 
+            $('.about-readme a').attr('target', '_blank')
 
         })
     })
@@ -146,21 +146,48 @@
         }
     })
 
-    $('.invite-btn').click(function() {
-        
-
+    $('.invite-btn').click(function () {
         $('html, body').animate({
             scrollTop: ($(this).offset().top)
         }, 500)
+        
+        
+
+        $('.email-message')
+            .val(`Howdy!
+            
+Copy and paste the link below into your browser to find me at the Blackjack table!
+            
+    https://github.com/josephemswiler/blackjack
+            
+Your Formidable Opponent,
+Username`)
+
+    })
+
+    $('.send-invite-btn').click(function () {
+        let inviteName = $('.invite-username').val().trim()
+        
+        console.log($('.invite-input').val())
+
+        // $(this).attr({
+        //     href: "mailto:someone@yoursite.com?cc=someoneelse@theirsite.com, another@thatsite.com, me@mysite.com&bcc=lastperson@theirsite.com&subject=Big%20News&body=<a href=\"https://github.com/josephemswiler/blackjack\">Play Blackjack</a>"
+        // })
+
+        if (inviteName !== '') {
+            
+            $('.invite-username').removeClass('is-invalid').addClass('.is-valid')
+            $('.valid-feedback').text(`Looks good! An email will be sent to ${inviteName}@gmail.com with the following subject and message.`)
+        } else {
+            $('.invite-username').removeClass('is-valid').addClass('.is-invalid')
+        }
 
         event.preventDefault()
-
-        console.log($('.invite-username').val().trim())
-
-        $(this).attr({
-            href: "mailto:someone@yoursite.com?cc=someoneelse@theirsite.com, another@thatsite.com, me@mysite.com&bcc=lastperson@theirsite.com&subject=Big%20News&body=Body-goes-here"
-        })
     })
+
+    
+
+
 
     $(document).on("click", ".fa-user", function () { //here
         $(this)
