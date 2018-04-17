@@ -1,5 +1,9 @@
 # Blackjack
 
+**Game Play**
+---
+Blackjack is based on the card game [Blackjack](https://en.wikipedia.org/wiki/Blackjack "Blackjack Wiki"). Two players can play each other or one player can play a computer!
+
 **Technology Used**
 ---
 - HTML5
