@@ -37,11 +37,18 @@
     }
 
     let converter = new showdown.Converter()
+    
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
         $.get(response.download_url, function (data) {
             let html = converter.makeHtml(data)
             $('.about-readme').html(html)
+        }).then(function(){
+            let hr = $('<hr>')
+                .addClass('my-4')
+            $('.about-readme h1').append(hr)
+            $('.about-readme ul').addClass('list-group list-group-item-action')
+            $('.about-readme li').addClass('list-group-item list-group-item-action')
         })
     })
 

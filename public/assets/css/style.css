@@ -10,7 +10,7 @@ body {
     display: none;
 }
 
-.fa-google {
+.fa-google, .fa-github {
     font-size: 120px;
 }
 
