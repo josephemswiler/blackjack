@@ -50,23 +50,35 @@
             $('.about-readme ul').addClass('list-group list-group-item-action')
             $('.about-readme li').addClass('list-group-item list-group-item-action')
             $('.about-readme a').attr('target', '_blank')
-
         })
     })
 
     $('.nav-link').click(function () {
-        $('.container').hide()
-        $(`.${this.dataset.screen}-screen`).show()
+
+        if ($(this).parent().hasClass('active')) {
+        } else {
+            $('.container').fadeOut(400)
+            $(`.${this.dataset.screen}-screen`).delay(400).fadeIn()
+
+            $('.nav-item').removeClass('active')
+            $(this).parent().addClass('active')
+        }
     })
 
 
 
     function loadFavorites(name) {
         // for (var i = 0; i < savedNames.length - 1; i++) {
+        let idName = name.replace(/[^\w]/g, '')
+        let currentId = `collapse-fav-${idName}`
         let addBtn = $('<button>')
-            .addClass('btn btn-light fav-user-btn')
+            .addClass('btn btn-light fav-user-btn scroll-top')
             .attr({
-                type: 'submit'
+                type: 'submit',
+                'data-toggle': 'collapse',
+                'data-target': `#${currentId}`,
+                'aria-expanded': 'false',
+                'aria-controls': currentId
             })
             .text(name) //insideList[i].userName)
         let user = $('<i>')
@@ -90,20 +102,106 @@
             .html('<span aria-hidden="true">&times;</span>')
             .attr("data-index", 0); //replace with i
 
-        item.append(close)
+        let statsWrapper = getStats('user', currentId) //here pass in user
+
+        item.append(close).append(statsWrapper)
         $('.fav-users').prepend(item)
         // }
     }
 
-    loadFavorites(`Joseph "King of Hearts"`)
-    loadFavorites(`Jenny "Big Time"`)
+    function getStats(user, currentId) {
+
+        let header = $('<h5>')
+            .addClass('card-title')
+            .text('Stats')
+
+        //load stats
+        let chipsData = $('<td>')
+            .text('$ 2,000') //here load chips data
+        let chipsHeader = $('<th>')
+            .attr('scope', 'row')
+            .text('Chips')
+        let chipsRow = $('<tr>')
+            .append(chipsHeader)
+            .append(chipsData)
+
+        let winsData = $('<td>')
+            .text('18') //here load wins data
+        let winsHeader = $('<th>')
+            .attr('scope', 'row')
+            .text('Wins')
+        let winsRow = $('<tr>')
+            .append(winsHeader)
+            .append(winsData)
+
+        let lossesData = $('<td>')
+            .text('7') //here load losses data
+        let lossesHeader = $('<th>')
+            .attr('scope', 'row')
+            .text('Losses')
+        let lossesRow = $('<tr>')
+            .append(lossesHeader)
+            .append(lossesData)
+
+        let bustsData = $('<td>')
+            .text('2') //here load busts data
+        let bustsHeader = $('<th>')
+            .attr('scope', 'row')
+            .text('Busts')
+        let bustsRow = $('<tr>')
+            .append(bustsHeader)
+            .append(bustsData)
+
+        let styleData = $('<td>')
+            .text('Slightly Crazy') //here load style data
+        let styleHeader = $('<th>')
+            .attr('scope', 'row')
+            .text('Playing Style')
+        let styleRow = $('<tr>')
+            .append(styleHeader)
+            .append(styleData)
+
+        let tableBody = $('<tbody>')
+            .append(chipsRow)
+            .append(winsRow)
+            .append(lossesRow)
+            .append(bustsRow)
+            .append(styleRow)
+
+        let statTable = $('<table>')
+            .addClass('table')
+            .append(tableBody)
+
+
+        let stats = $('<div>')
+            .addClass('card card-body mt-2 bg-light')
+            .append(header)
+            .append(statTable)
+
+        let statsWrapper = $('<div>')
+            .addClass('collapse')
+            .attr({
+                id: currentId
+            })
+            .append(stats)
+
+        return statsWrapper
+    }
+
+
 
     function loadLeaders(name, chips) {
         // for (var i = 0; i < savedNames.length - 1; i++) {
+        let idName = name.replace(/[^\w]/g, '')
+        let currentId = `collapse-leader-${idName}`
         let addBtn = $('<button>')
-            .addClass('btn btn-light fav-user-btn')
+            .addClass('btn btn-light fav-user-btn scroll-top')
             .attr({
-                type: 'submit'
+                type: 'submit',
+                'data-toggle': 'collapse',
+                'data-target': `#${currentId}`,
+                'aria-expanded': 'false',
+                'aria-controls': currentId
             })
             .text(name) //insideList[i].userName)
         let user = $('<i>')
@@ -126,13 +224,28 @@
             })
             .text(`$ ${formattedChips}`)
 
-        item.append(score)
+        let statsWrapper = getStats('user', currentId) //here pass in user
+
+        item.append(score).append(statsWrapper)
         $('.leader-users').prepend(item)
         // }
     }
 
-    loadLeaders(`Gerald "The Beast"`, 3000)
-    loadLeaders(`Monster "Mon"`, 2000)
+    //here
+    loadFavorites(`Joseph "King of Hearts"`)
+    loadFavorites(`Jenny "Big Time"`)
+    loadLeaders(`Joseph "King of Hearts"`, 4000) //here don't forget to order leader board
+    loadLeaders(`Monster "Mon"`, 12000) //here don't forget to order leader board
+    loadLeaders(`Gerald "The Beast"`, 55000) //here don't forget to order leader board
+    loadLeaders(`Jenny "Big Time"`, 100000) //here don't forget to order leader board
+
+
+
+    $(document).on('click', '.scroll-top', function () {
+        $('html, body').animate({
+            scrollTop: ($(this).offset().top - 68)
+        }, 500)
+    })
 
     $(document).on("click", ".fa-star", function () {
         $(this)
@@ -147,11 +260,6 @@
     })
 
     $('.invite-btn').click(function () {
-        $('html, body').animate({
-            scrollTop: ($(this).offset().top)
-        }, 500)
-        
-        
 
         $('.email-message')
             .val(`Howdy!
@@ -166,26 +274,27 @@ Username`)
     })
 
     $('.send-invite-btn').click(function () {
+        event.preventDefault()
+
         let inviteName = $('.invite-username').val().trim()
-        
-        console.log($('.invite-input').val())
+
+        console.log(inviteName, $(this).val())
 
         // $(this).attr({
         //     href: "mailto:someone@yoursite.com?cc=someoneelse@theirsite.com, another@thatsite.com, me@mysite.com&bcc=lastperson@theirsite.com&subject=Big%20News&body=<a href=\"https://github.com/josephemswiler/blackjack\">Play Blackjack</a>"
         // })
 
-        if (inviteName !== '') {
-            
-            $('.invite-username').removeClass('is-invalid').addClass('.is-valid')
-            $('.valid-feedback').text(`Looks good! An email will be sent to ${inviteName}@gmail.com with the following subject and message.`)
+        if (inviteName === '') {
+            $('.invite-username').removeClass('is-valid').addClass('is-invalid')
         } else {
-            $('.invite-username').removeClass('is-valid').addClass('.is-invalid')
+            $('.invite-username').removeClass('is-invalid').addClass('is-valid')
+            $('.valid-feedback').text(`Looks good! An email will be sent to ${inviteName}@gmail.com with the following subject and message.`)
         }
 
-        event.preventDefault()
+
     })
 
-    
+
 
 
 

@@ -20,8 +20,8 @@
     <title>Blackjack</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+<body class="text-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light mb-3">
         <a class="navbar-brand" href="#">Blackjack</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -30,9 +30,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item play-nav active">
-                    <a class="nav-link" data-screen="play" href="#">Play
-                        <span class="sr-only">(current)</span>
-                    </a>
+                    <a class="nav-link" data-screen="play" href="#">Play</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-screen="profile" href="#">Profile</a>
@@ -62,6 +60,7 @@
                 </div>
             </div>
         </div>
+        <!-- /auth-screen -->
         <div class="username-screen">
             <div class="card">
                 <div class="card-header">
@@ -82,7 +81,7 @@
                     </p>
                     <ul class="list-group list-group-flush fav-users">
                         <li>
-                            <button class="btn btn-block btn-dark mt-4 invite-btn" type="button" data-toggle="collapse" data-target="#collapseExample"
+                            <button class="btn btn-block btn-dark mt-4 invite-btn scroll-top" type="button" data-toggle="collapse" data-target="#collapseExample"
                                 aria-expanded="false" aria-controls="collapseExample">
                                 Invite a Google user to play!
                             </button>
@@ -92,7 +91,7 @@
                                         <label for="exampleFormControlInput1">Email address</label>
                                         <div class="input-group mb-3 invite-input">
                                             <input type="text" class="form-control invite-username" placeholder="Recipient's username" aria-label="Recipient's username"
-                                                aria-describedby="basic-addon2">
+                                                aria-describedby="basic-addon2" value="">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon2">@gmail.com</span>
                                             </div>
@@ -109,7 +108,6 @@
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Message</label>
                                             <textarea class="form-control email-message" id="exampleFormControlTextarea1" rows="8">
-                                                <a href="https://github.com/josephemswiler/blackjack">Play Blackjack</a>
                                             </textarea>
                                         </div>
                                         <a target="_blank" role="button" class="btn btn-block btn-success mt-3 send-invite-btn" href="#">Send Invite</a>
@@ -121,6 +119,11 @@
                 </div>
             </div>
         </div>
+        <!-- /username-screen -->
+        <div class="place-bets">
+
+        </div>
+
     </div>
     <div class="container profile-screen mb-3">
         <div class="card">
@@ -133,7 +136,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title profile-name">Stats</h5>
+                        <h5 class="card-title">Stats</h5>
                         <table class="table">
                             <tbody>
                                 <tr>
