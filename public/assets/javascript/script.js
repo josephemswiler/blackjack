@@ -301,7 +301,7 @@ Username`)
             $('.invite-username').removeClass('is-valid').addClass('is-invalid')
         } else {
             $('.invite-username').removeClass('is-invalid').addClass('is-valid')
-            $('.valid-feedback').text(`Looks good! An email will be sent to ${inviteName}@gmail.com with the following subject and message.`)
+            $('.valid-feedback').text(`Awesome! An email has been sent to ${inviteName}@gmail.com!`)
         }
 
 
