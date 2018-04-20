@@ -38,6 +38,15 @@
 
     let converter = new showdown.Converter()
 
+    class Player {
+        constructor(name) {
+            this.name = name
+        }
+    }
+
+    let opp = new Player('joey')
+
+    console.log(opp)
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
         $.get(response.download_url, function (data) {
@@ -55,8 +64,7 @@
 
     $('.nav-link').click(function () {
 
-        if ($(this).parent().hasClass('active')) {
-        } else {
+        if ($(this).parent().hasClass('active')) {} else {
             $('.container').fadeOut(400)
             $(`.${this.dataset.screen}-screen`).delay(400).fadeIn()
 
@@ -64,7 +72,6 @@
             $(this).parent().addClass('active')
         }
     })
-
 
 
     function loadFavorites(name) {
@@ -103,6 +110,12 @@
             .attr("data-index", 0); //replace with i
 
         let statsWrapper = getStats('user', currentId) //here pass in user
+
+        let playBtn = $('<button>')
+            .addClass('btn btn-success btn-block request-opp mt-3 mb-1')
+            .text(`Play ${name}`)
+
+        statsWrapper.append(playBtn)
 
         item.append(close).append(statsWrapper)
         $('.fav-users').prepend(item)
@@ -169,7 +182,7 @@
             .append(styleRow)
 
         let statTable = $('<table>')
-            .addClass('table')
+            .addClass('table mb-0')
             .append(tableBody)
 
 
