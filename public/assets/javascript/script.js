@@ -39,14 +39,73 @@
     let converter = new showdown.Converter()
 
     class Player {
-        constructor(name) {
+        constructor(username, name, nickname, isActive, autheticated, opponent, style, favorites, stats) {
+            this.username = username
             this.name = name
+            this.firstname = this.name.split(' ').splice(0, 1).join('')
+            this.nickname = nickname
+            this.isActive = isActive
+            this.autheticated = autheticated
+            this.opponent = opponent
+            this.style = style
+            this.favorites = favorites
+            this.stats = stats
         }
     }
 
-    let opp = new Player('joey')
+    let leaderList = []
 
-    console.log(opp)
+    let playerJoe = new Player(
+        'josephemswiler',
+        'Joseph Emswiler',
+        'King of Hearts',
+        false,
+        false,
+        '',
+        'Newbie', [
+            'jenems4',
+            'thisemail'
+        ], {
+            chips: 20000,
+            wins: 10,
+            losses: 5,
+            busts: 2,
+        })
+    let playerJen = new Player(
+        'jenems4',
+        'Jennifer Emswiler',
+        'Big Time',
+        false,
+        false,
+        '',
+        'Boss', [
+            'josephemswiler',
+            'otheremail'
+        ], {
+            chips: 30000,
+            wins: 15,
+            losses: 2,
+            busts: 0,
+        })
+    let playerMonster = new Player(
+        'themon',
+        'Monster Emswiler',
+        'Oof',
+        false,
+        false,
+        '',
+        'Legend', [
+            'josephemswiler',
+            'jenems4'
+        ], {
+            chips: 2000,
+            wins: 2,
+            losses: 21,
+            busts: 2,
+        })
+    let favoritesList = [playerJoe, playerJen, playerMonster]
+
+    console.log(favoritesList[0].username)
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
         $.get(response.download_url, function (data) {
@@ -74,52 +133,98 @@
     })
 
 
-    function loadFavorites(name) {
-        // for (var i = 0; i < savedNames.length - 1; i++) {
-        let idName = name.replace(/[^\w]/g, '')
-        let currentId = `collapse-fav-${idName}`
-        let addBtn = $('<button>')
-            .addClass('btn btn-light fav-user-btn scroll-top')
-            .attr({
-                type: 'submit',
-                'data-toggle': 'collapse',
-                'data-target': `#${currentId}`,
-                'aria-expanded': 'false',
-                'aria-controls': currentId
-            })
-            .text(name) //insideList[i].userName)
-        let user = $('<i>')
-            .addClass('fas fa-user text-success mr-3')
-            .attr({
-                'data-toggle': 'tooltip',
-                'data-placement': 'top',
-                title: 'User is online!'
-            })
-        let star = $('<i>')
-            .addClass('far fa-star text-dark mr-3')
-        let item = $('<li>')
-            .addClass('list-group-item text-left')
-            .append(star, user, addBtn)
-        let close = $('<button>')
-            .addClass('close text-right')
-            .attr({
-                type: 'button',
-                'aria-label': 'Close'
-            })
-            .html('<span aria-hidden="true">&times;</span>')
-            .attr("data-index", 0); //replace with i
 
-        let statsWrapper = getStats('user', currentId) //here pass in user
+    function loadFavorites(arr) {
+        for (let i in arr) {
+            let username = arr[i].username
+            let currentId = `collapse-fav-${username}`
+            let name = `${arr[i].firstname} "${arr[i].nickname}"`
+            let addBtn = $('<button>')
+                .addClass('btn btn-light fav-user-btn scroll-top')
+                .attr({
+                    type: 'submit',
+                    'data-toggle': 'collapse',
+                    'data-target': `#${currentId}`,
+                    'aria-expanded': 'false',
+                    'aria-controls': currentId
+                })
+                .text(name)
+            let user = $('<i>')
+                .addClass('fas fa-user text-success mr-3')
+                .attr({
+                    'data-toggle': 'tooltip',
+                    'data-placement': 'top',
+                    title: 'User is online!'
+                })
+            let star = $('<i>')
+                .addClass('far fa-star text-dark mr-3')
+            let item = $('<li>')
+                .addClass('list-group-item text-left')
+                .append(star, user, addBtn)
+            let close = $('<button>')
+                .addClass('close text-right')
+                .attr({
+                    type: 'button',
+                    'aria-label': 'Close'
+                })
+                .html('<span aria-hidden="true">&times;</span>')
+                .attr("data-username", arr[i].username)
 
-        let playBtn = $('<button>')
-            .addClass('btn btn-success btn-block request-opp mt-3 mb-1')
-            .text(`Play ${name}`)
+            let statsWrapper = getStats(arr[i], currentId)
 
-        statsWrapper.append(playBtn)
+            let playBtn = $('<button>')
+                .addClass('btn btn-success btn-block request-opp mt-3 mb-1')
+                .text(`Play ${name}`)
 
-        item.append(close).append(statsWrapper)
-        $('.fav-users').prepend(item)
-        // }
+            statsWrapper.append(playBtn)
+
+            item.append(close).append(statsWrapper)
+            $('.fav-users').prepend(item)
+        }
+    }
+
+    function loadLeaders(arr) {
+        arr.sort(function(a, b) { 
+            return a.stats.chips - b.stats.chips
+        })
+        for (let i in arr) {
+            let username = arr[i].username
+            let currentId = `collapse-leader-${username}`
+            let name = `${arr[i].firstname} "${arr[i].nickname}"`
+            let addBtn = $('<button>')
+                .addClass('btn btn-light fav-user-btn scroll-top')
+                .attr({
+                    type: 'submit',
+                    'data-toggle': 'collapse',
+                    'data-target': `#${currentId}`,
+                    'aria-expanded': 'false',
+                    'aria-controls': currentId
+                })
+                .text(name)
+            let user = $('<i>')
+                .addClass('fas fa-user text-success mr-3')
+                .attr({
+                    'data-toggle': 'tooltip',
+                    'data-placement': 'top',
+                    title: 'User is online!'
+                })
+            let star = $('<i>')
+                .addClass('far fa-star text-dark mr-3')
+            let item = $('<li>')
+                .addClass('list-group-item text-left')
+                .append(star, user, addBtn)
+            let score = $('<button>')
+                .addClass('close text-right disabled')
+                .attr({
+                    type: 'button'
+                })
+                .text(`$ ${addCommas(arr[i].stats.chips)}`)
+
+            let statsWrapper = getStats(arr[i], currentId)
+
+            item.append(score).append(statsWrapper)
+            $('.leader-users').prepend(item)
+        }
     }
 
     function getStats(user, currentId) {
@@ -128,9 +233,8 @@
             .addClass('card-title')
             .text('Stats')
 
-        //load stats
         let chipsData = $('<td>')
-            .text('$ 2,000') //here load chips data
+            .text(`$ ${addCommas(user.stats.chips)}`)
         let chipsHeader = $('<th>')
             .attr('scope', 'row')
             .text('Chips')
@@ -139,7 +243,7 @@
             .append(chipsData)
 
         let winsData = $('<td>')
-            .text('18') //here load wins data
+            .text(user.stats.wins)
         let winsHeader = $('<th>')
             .attr('scope', 'row')
             .text('Wins')
@@ -148,7 +252,7 @@
             .append(winsData)
 
         let lossesData = $('<td>')
-            .text('7') //here load losses data
+            .text(user.stats.losses)
         let lossesHeader = $('<th>')
             .attr('scope', 'row')
             .text('Losses')
@@ -157,7 +261,7 @@
             .append(lossesData)
 
         let bustsData = $('<td>')
-            .text('2') //here load busts data
+            .text(user.stats.busts)
         let bustsHeader = $('<th>')
             .attr('scope', 'row')
             .text('Busts')
@@ -166,7 +270,7 @@
             .append(bustsData)
 
         let styleData = $('<td>')
-            .text('Slightly Crazy') //here load style data
+            .text(user.style)
         let styleHeader = $('<th>')
             .attr('scope', 'row')
             .text('Playing Style')
@@ -185,7 +289,6 @@
             .addClass('table mb-0')
             .append(tableBody)
 
-
         let stats = $('<div>')
             .addClass('card card-body mt-2 bg-light')
             .append(header)
@@ -199,60 +302,11 @@
             .append(stats)
 
         return statsWrapper
-    }
-
-
-
-    function loadLeaders(name, chips) {
-        // for (var i = 0; i < savedNames.length - 1; i++) {
-        let idName = name.replace(/[^\w]/g, '')
-        let currentId = `collapse-leader-${idName}`
-        let addBtn = $('<button>')
-            .addClass('btn btn-light fav-user-btn scroll-top')
-            .attr({
-                type: 'submit',
-                'data-toggle': 'collapse',
-                'data-target': `#${currentId}`,
-                'aria-expanded': 'false',
-                'aria-controls': currentId
-            })
-            .text(name) //insideList[i].userName)
-        let user = $('<i>')
-            .addClass('fas fa-user text-success mr-3')
-            .attr({
-                'data-toggle': 'tooltip',
-                'data-placement': 'top',
-                title: 'User is online!'
-            })
-        let star = $('<i>')
-            .addClass('far fa-star text-dark mr-3')
-        let item = $('<li>')
-            .addClass('list-group-item text-left')
-            .append(star, user, addBtn)
-        let formattedChips = addCommas(chips)
-        let score = $('<button>')
-            .addClass('close text-right disabled')
-            .attr({
-                type: 'button'
-            })
-            .text(`$ ${formattedChips}`)
-
-        let statsWrapper = getStats('user', currentId) //here pass in user
-
-        item.append(score).append(statsWrapper)
-        $('.leader-users').prepend(item)
-        // }
-    }
+    } // /getStats
 
     //here
-    loadFavorites(`Joseph "King of Hearts"`)
-    loadFavorites(`Jenny "Big Time"`)
-    loadLeaders(`Joseph "King of Hearts"`, 4000) //here don't forget to order leader board
-    loadLeaders(`Monster "Mon"`, 12000) //here don't forget to order leader board
-    loadLeaders(`Gerald "The Beast"`, 55000) //here don't forget to order leader board
-    loadLeaders(`Jenny "Big Time"`, 100000) //here don't forget to order leader board
-
-
+    loadFavorites(favoritesList)
+    loadLeaders(favoritesList)
 
     $(document).on('click', '.scroll-top', function () {
         $('html, body').animate({
@@ -307,9 +361,44 @@ Username`)
 
     })
 
+    $(document).on('click', '.close', function () {
 
+        console.log(`${this.dataset.username}`)
 
+        let user = this.dataset.username
 
+        for (let i in favoritesList) {
+            if (favoritesList[i].username === user) {
+                favoritesList.splice(i,1)
+            }
+        }
+
+        console.log(favoritesList)
+
+        // let text = ($(this).parent().find('p').text());
+
+        // emailKey = localUser.email.substr(0, localUser.email.indexOf('@'));
+
+        // currentFavorites.splice(currentFavorites.indexOf(text), 1);
+
+        // database.ref('users/' + emailKey + '/favoritePlaces/').off("value")
+        // database.ref('users/' + emailKey + '/favoritePlaces/').on("value", function (snap) {
+
+        //     snap.forEach(function (data) {
+
+        //         database.ref('users/' + emailKey + '/favoritePlaces/' + data.key).off("value")
+        //         database.ref('users/' + emailKey + '/favoritePlaces/' + data.key).on("value", function (snap) {
+
+        //             if (text === (snap.val())) {
+
+        //                 database.ref('users/' + emailKey + '/favoritePlaces/' + data.key).remove();
+
+        //             } else {}
+        //         });
+        //     });
+        // });
+        $(this).parent().remove();
+    })
 
     $(document).on("click", ".fa-user", function () { //here
         $(this)
@@ -318,12 +407,12 @@ Username`)
     })
 
     function loadSavedUsers() { //here refactor local storage then delete
-        $('.saved-profiles').empty();
-        let insideList = JSON.parse(localStorage.getItem('localUsers'));
+        $('.saved-profiles').empty()
+        let insideList = JSON.parse(localStorage.getItem('localUsers'))
         if (insideList) {
             for (var i = 0; i < insideList.length; i++) {
 
-                savedNames.push(insideList[i].userName);
+                savedNames.push(insideList[i].userName)
             }
         }
         if (!Array.isArray(insideList)) {
