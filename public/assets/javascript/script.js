@@ -180,7 +180,7 @@
     } // /loadFavorites
 
     function loadLeaders(arr) {
-        arr.sort(function(a, b) { 
+        arr.sort(function (a, b) {
             return a.stats.chips - b.stats.chips
         })
         for (let i in arr) {
@@ -316,24 +316,73 @@
     loadLeaders(favoritesList)
     loadProfile(playerJoe)
 
-    $('.bet-btn').click(function() {
+    $('.bet-btn').click(function () {
 
         if ($(this).text() === 'Reset') {
             $('.current-bet').text('$ 0')
             return
         }
 
-        let currentBet = parseInt($('.current-bet').text().replace(/\D/g,''))
-        let currentAdd = parseInt($(this).text().split(' ').splice(1,1).join(''))
+        let currentBet = parseInt($('.current-bet').text().replace(/\D/g, ''))
+        let currentAdd = parseInt($(this).text().split(' ').splice(1, 1).join(''))
         let result = addCommas(currentBet + currentAdd)
 
         $('.current-bet').text(`$ ${result}`)
     })
-//here play
-    $.get('https://deckofcardsapi.com/api/deck/new/shuffle/').then(data => console.log(data))
+    //here play
+    // let newDeck = $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
+    //     .then(data => {
+    //     let drawnCard = $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=1`)
+    //     console.log(drawnCard)
+    // })
 
-    $('.deal-game').click(function() {
-        $('.opp-card-1').animate({width:'toggle'},350);
+    // let newDeck = $.get(`https://deckofcardsapi.com/api/deck/new/draw/?count=4`)
+    // .then(data => {
+    //     let deckId = data.deck_id
+    //     let cardCount = data.remaining
+    //     let cards = data.cards[0]
+    //     console.log(cards)
+    // })
+
+    let gamePlay = false
+    let deckId = ''
+    let opponentHand = []
+    let playerHand = []
+
+   
+
+    function newDeck() {
+        $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
+            .then(data => {
+                
+                if (!gamePlay) {
+                    gamePlay = true
+
+                    $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=4`)
+                        .then(data => {
+                            deckId = data.deck_id
+                            opponentHand.push(data.cards.splice(0,2))
+                            playerHand.push(data.cards)
+                            firstDeal(deckId, opponentHand, playerHand)
+                            
+                        })
+                } else {}
+            })
+    }
+
+    function firstDeal(id, oHand, pHand) {
+        console.log(id, oHand, pHand)
+    }
+    
+
+    $('.deal-game').click(function () {
+        $('.opp-card-1').animate({
+            width: 'toggle'
+        }, 350)
+
+        newDeck()
+
+
     })
 
 
@@ -399,7 +448,7 @@ Username`)
 
         for (let i in favoritesList) {
             if (favoritesList[i].username === user) {
-                favoritesList.splice(i,1)
+                favoritesList.splice(i, 1)
             }
         }
 
