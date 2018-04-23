@@ -16,10 +16,20 @@ body {
     display: none;
 }
 
-.fa-google, .fa-github {
+.fa-google,
+.fa-github {
     font-size: 120px;
 }
 
 td {
     text-align: right;
+}
+
+.dealt-card {
+    float: left;
+    height: 100%;
+}
+
+.hand-wrapper {
+    height: 300px;
 }

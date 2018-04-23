@@ -105,8 +105,6 @@
         })
     let favoritesList = [playerJoe, playerJen, playerMonster]
 
-    console.log(favoritesList[0].username)
-
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
         $.get(response.download_url, function (data) {
             let html = converter.makeHtml(data)
@@ -124,15 +122,13 @@
     $('.nav-link').click(function () {
 
         if ($(this).parent().hasClass('active')) {} else {
-            $('.container').fadeOut(400)
+            $('.top-level-screen').fadeOut(400)
             $(`.${this.dataset.screen}-screen`).delay(400).fadeIn()
 
             $('.nav-item').removeClass('active')
             $(this).parent().addClass('active')
         }
     })
-
-
 
     function loadFavorites(arr) {
         for (let i in arr) {
@@ -181,7 +177,7 @@
             item.append(close).append(statsWrapper)
             $('.fav-users').prepend(item)
         }
-    }
+    } // /loadFavorites
 
     function loadLeaders(arr) {
         arr.sort(function(a, b) { 
@@ -225,6 +221,14 @@
             item.append(score).append(statsWrapper)
             $('.leader-users').prepend(item)
         }
+    } // /loadLeaders
+
+    function loadProfile(user) {
+        let statsTable = getStats(user, 'profile')
+
+        $('.profile-name').text(user.name)
+        $('.profile-img').attr('src', 'https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=400&h=400') //replace with img
+        $('.profile-stats').append(statsTable)
     }
 
     function getStats(user, currentId) {
@@ -301,12 +305,37 @@
             })
             .append(stats)
 
+        if (currentId === 'profile')
+            return statTable
+
         return statsWrapper
     } // /getStats
 
     //here
     loadFavorites(favoritesList)
     loadLeaders(favoritesList)
+    loadProfile(playerJoe)
+
+    $('.bet-btn').click(function() {
+
+        if ($(this).text() === 'Reset') {
+            $('.current-bet').text('$ 0')
+            return
+        }
+
+        let currentBet = parseInt($('.current-bet').text().replace(/\D/g,''))
+        let currentAdd = parseInt($(this).text().split(' ').splice(1,1).join(''))
+        let result = addCommas(currentBet + currentAdd)
+
+        $('.current-bet').text(`$ ${result}`)
+    })
+//here play
+    $.get('https://deckofcardsapi.com/api/deck/new/shuffle/').then(data => console.log(data))
+
+    $('.deal-game').click(function() {
+        $('.opp-card-1').animate({width:'toggle'},350);
+    })
+
 
     $(document).on('click', '.scroll-top', function () {
         $('html, body').animate({
@@ -315,6 +344,7 @@
     })
 
     $(document).on("click", ".fa-star", function () {
+        //here add function to add to favorites list
         $(this)
             .toggleClass('text-dark')
             .toggleClass('text-warning')
@@ -397,7 +427,7 @@ Username`)
         //         });
         //     });
         // });
-        $(this).parent().remove();
+        $(this).parent().remove()
     })
 
     $(document).on("click", ".fa-user", function () { //here

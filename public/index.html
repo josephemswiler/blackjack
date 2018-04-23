@@ -47,7 +47,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container play-screen mb-3">
+    <div class="container top-level-screen play-screen mb-3">
         <div class="auth-screen">
             <div class="card">
                 <div class="card-header">
@@ -60,8 +60,8 @@
                 </div>
             </div>
         </div>
-        <!-- /auth-screen -->
-        <div class="username-screen">
+        <!-- /.auth-screen -->
+        <div class="opponent-screen">
             <div class="card">
                 <div class="card-header">
                     Choose Opponent
@@ -70,7 +70,7 @@
                     <h5 class="card-title">Choose an opponent to play!</h5>
                     <ul class="list-group list-group-flush fav-users">
                         <li>
-                            <button class="btn btn-block btn-dark mt-4 invite-btn scroll-top" type="button" data-toggle="collapse" data-target="#collapseExample"
+                            <button class="btn btn-block btn-dark mt-3 invite-btn scroll-top" type="button" data-toggle="collapse" data-target="#collapseExample"
                                 aria-expanded="false" aria-controls="collapseExample">
                                 Invite a Google user to play!
                             </button>
@@ -108,54 +108,186 @@
                 </div>
             </div>
         </div>
-        <!-- /username-screen -->
-        <div class="place-bets">
-
+        <!-- /.opponent-screen -->
+        <div class="bets-screen">
+            <div class="card">
+                <div class="card-header">
+                    Place Your Bets
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title current-bet">$ 0</h5>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <button type="button" class="btn bet-btn btn-block btn-outline-danger mt-3">$ 10</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn bet-btn btn-block btn-outline-danger mt-3">$ 50</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn bet-btn btn-block btn-outline-danger mt-3">$ 100</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn bet-btn btn-block btn-outline-danger mt-3">$ 500</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn bet-btn btn-block btn-outline-dark mt-3">Reset</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-block btn-success mt-3 deal-game">Play!</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-block btn-outline-dark mt-3 exit-game">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
+        <!-- /.bets-screen -->
+        <div class="table-screen">
+            <div class="card">
+                <div class="card-header">
+                    Welcome To The Blackjack Table!
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title text-left">Opponent
+                        <span class="badge badge-pill badge-warning">Hit!</span>
+                    </h5>
+                    <div class="container opp-hand">
+                        <!-- <div class="row">
+                            <div class="col-sm">
+                                <div class="card bg-light border-danger mb-3">
+                                    <div class="card-header">Points</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">18</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="card bg-light border-danger mb-3">
+                                    <div class="card-header">Bet</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">$ 2,500</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-sm">
+                                <table class="table table-sm table-light text-center">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="bg-light border-danger">Points Showing</th>
+                                            <th scope="col"class="bg-light border-danger">Bet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">18</td>
+                                            <td class="text-center">$ 2,500</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="card bg-light border-danger mb-3">
+                                    <!-- <div class="card-header">Hand</div> -->
+                                    <div class="card-body hand-wrapper">
+                                        <img class="opp-card-1 dealt-card" src="assets/images/card-back.svg" alt="back of card">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.opp-hand -->
+                    <h5 class="card-title text-left">Joseph "King of Hearts"
+                        <span class="badge badge-pill badge-danger">Stand</span>
+                    </h5>
+                    <div class="container player-hand">
+                        <!-- <div class="row">
+                            <div class="col-sm">
+                                <div class="card bg-light border-success mb-3">
+                                    <div class="card-header">Points</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">18</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="card bg-light border-success mb-3">
+                                    <div class="card-header">Bet</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">$ 2,500</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-sm">
+                                <table class="table table-sm table-light text-center">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="bg-light border-success">Points</th>
+                                            <th scope="col" class="bg-light border-success">Bet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">18</td>
+                                            <td class="text-center">$ 2,500</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="card bg-light border-success mb-3">
+                                    <!-- <div class="card-header">Hand</div> -->
+                                    <div class="card-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-block btn-success mt-3 deal-game">Hit!</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-block btn-outline-dark mt-3 exit-game">Stand</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.player-hand -->
+                </div>
+            </div>
+        </div>
+        <!-- /.table-screen -->
     </div>
-    <div class="container profile-screen mb-3">
+    <!-- /.play-screen -->
+    <div class="container top-level-screen profile-screen mb-3">
         <div class="card">
             <div class="card-header profile-name">
-                Joseph Emswiler
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <img src="https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=400&h=400" class="w-100 profile-img">
+                    <img src="#" class="w-100 profile-img">
                 </div>
                 <div class="col-md-8">
-                    <div class="card-body">
+                    <div class="card-body profile-stats">
                         <h5 class="card-title">Stats</h5>
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Chips</th>
-                                    <td>$ 2,000</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Wins</th>
-                                    <td>18</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Losses</th>
-                                    <td>6</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Busts</th>
-                                    <td>2</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Playing Style</th>
-                                    <td>Super Smart</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container leaders-screen mb-3">
+    <!-- /.profile-screen -->
+    <div class="container top-level-screen leaders-screen mb-3">
         <div class="card">
             <div class="card-header">
                 Current Leaders
@@ -166,7 +298,8 @@
             </div>
         </div>
     </div>
-    <div class="container about-screen mb-3">
+    <!-- /.leaders-screen -->
+    <div class="container top-level-screen about-screen mb-3">
         <div class="card">
             <div class="card-header">
                 About Blackjack
@@ -184,6 +317,7 @@
             </div>
         </div>
     </div>
+    <!-- /.about-screen -->
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
