@@ -39,7 +39,7 @@
     let converter = new showdown.Converter()
 
     class Player {
-        constructor(username, name, nickname, isActive, autheticated, opponent, style, favorites, stats) {
+        constructor(username, name, nickname, isActive, autheticated, opponent, style, favorites, stats, hand) {
             this.username = username
             this.name = name
             this.firstname = this.name.split(' ').splice(0, 1).join('')
@@ -50,6 +50,7 @@
             this.style = style
             this.favorites = favorites
             this.stats = stats
+            this.hand = hand
         }
     }
 
@@ -70,7 +71,7 @@
             wins: 10,
             losses: 5,
             busts: 2,
-        })
+        }, [])
     let playerJen = new Player(
         'jenems4',
         'Jennifer Emswiler',
@@ -86,7 +87,7 @@
             wins: 15,
             losses: 2,
             busts: 0,
-        })
+        }, [])
     let playerMonster = new Player(
         'themon',
         'Monster Emswiler',
@@ -102,7 +103,7 @@
             wins: 2,
             losses: 21,
             busts: 2,
-        })
+        }, [])
     let favoritesList = [playerJoe, playerJen, playerMonster]
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
@@ -349,41 +350,128 @@
     let opponentHand = []
     let playerHand = []
 
-   
+    // function firstDeal(id, oHand, pHand) {
+    //     console.log(id, oHand, pHand)
+    // }
 
-    function newDeck() {
-        $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
-            .then(data => {
-                
-                if (!gamePlay) {
-                    gamePlay = true
+    let oppCardCount = 1
+    let playerCardCount = 1
 
-                    $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=4`)
-                        .then(data => {
-                            deckId = data.deck_id
-                            opponentHand.push(data.cards.splice(0,2))
-                            playerHand.push(data.cards)
-                            firstDeal(deckId, opponentHand, playerHand)
-                            
-                        })
-                } else {}
+    $.fn.extend({
+        animateCss: function (animationName, callback) {
+            var animationEnd = (function (el) {
+                var animations = {
+                    animation: 'animationend',
+                    OAnimation: 'oAnimationEnd',
+                    MozAnimation: 'mozAnimationEnd',
+                    WebkitAnimation: 'webkitAnimationEnd',
+                };
+
+                for (var t in animations) {
+                    if (el.style[t] !== undefined) {
+                        return animations[t]
+                    }
+                }
+            })(document.createElement('div'))
+
+            this.addClass('animated ' + animationName).one(animationEnd, function () {
+                $(this).removeClass('animated ' + animationName)
+
+                if (typeof callback === 'function') callback()
             })
-    }
 
-    function firstDeal(id, oHand, pHand) {
-        console.log(id, oHand, pHand)
-    }
-    
+            return this
+        },
+    })
 
     $('.deal-game').click(function () {
-        $('.opp-card-1').animate({
-            width: 'toggle'
-        }, 350)
 
-        newDeck()
+        $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
+            .then(data => {
+
+                if (!gamePlay) {
+                    dealCard('assets/images/card-back.svg', 'opp', 0)
+
+                    gamePlay = true
+
+                    return $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=4`)
+                } else {}
+            }).then(data => {
+
+                console.log(data)
+                deckId = data.deck_id
+                opponentHand.push(data.cards[0], data.cards[1])
+                playerHand.push(data.cards[2], data.cards[3])
+                console.log(opponentHand, playerHand)
+                // firstDeal(deckId, opponentHand, playerHand)
+
+                for (let i in opponentHand) {
+                    oppCardCount = dealCard(opponentHand[i].images.png, 'opp', oppCardCount)
+                }
+
+                for (let i in playerHand) {
+                    playerCardCount = dealCard(playerHand[i].images.png, 'player', playerCardCount)
+                }
+            })
+
+
+
 
 
     })
+
+
+
+    function dealCard(card, player, index) {
+
+        let pos = ''
+
+        if (index === 0) {
+            pos = '0px'
+        } else if (player === 'player') {
+            pos = `${(index-1) * 35}px`
+        } else {
+            pos = `${index * 35}px`
+        }
+
+        let backOfCard = $('<img>')
+            .attr({
+                'src': 'assets/images/card-back.svg',
+                'alt': 'A playing card'
+            })
+            .addClass(`${player}-card-${index} dealt-card`)
+            .css({
+                'z-index': index,
+                left: pos
+            })
+
+        let cardImg = $('<img>')
+            .attr({
+                'src': card,
+                'alt': 'A playing card'
+            })
+            .addClass(`${player}-card-${index} dealt-card`)
+            .css({
+                'z-index': index,
+                left: pos
+            })
+
+        backOfCard.animateCss('rollIn', function () {
+            if (!(card === 'assets/images/card-back.svg')) {
+                backOfCard.animateCss('flipOutY', function () {
+                    backOfCard.hide()
+                    cardImg.animateCss('flipInY')
+                    cardImg.insertAfter(`.${player}-card-${index-1}`)
+                })
+            }
+        })
+
+        $(`.${player}-hand-wrapper`).append(backOfCard)
+
+        index++
+
+        return index
+    }
 
 
     $(document).on('click', '.scroll-top', function () {

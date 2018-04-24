@@ -11,6 +11,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <!-- Local CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Font Awesome Icons -->
@@ -157,31 +159,27 @@
                         <span class="badge badge-pill badge-warning">Hit!</span>
                     </h5>
                     <div class="container opp-hand">
-                        <!-- <div class="row">
-                            <div class="col-sm">
+                        <div class="row">
+                            <div class="col-6">
                                 <div class="card bg-light border-danger mb-3">
                                     <div class="card-header">Points</div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">18</h5>
-                                    </div>
+                                    <h5 class="card-title mt-2">18</h5>
                                 </div>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-6">
                                 <div class="card bg-light border-danger mb-3">
                                     <div class="card-header">Bet</div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">$ 2,500</h5>
-                                    </div>
+                                    <h5 class="card-title mt-2">$ 2,500</h5>
                                 </div>
                             </div>
-                        </div> -->
-                        <div class="row">
+                        </div>
+                        <!-- <div class="row">
                             <div class="col-sm">
                                 <table class="table table-sm table-light text-center">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="bg-light border-danger">Points Showing</th>
-                                            <th scope="col"class="bg-light border-danger">Bet</th>
+                                            <th scope="col" class="bg-light border-danger">Bet</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -192,13 +190,12 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-sm">
-                                <div class="card bg-light border-danger mb-3">
+                                <div class="card bg-light hand-wrapper border-danger mb-3">
                                     <!-- <div class="card-header">Hand</div> -->
-                                    <div class="card-body hand-wrapper">
-                                        <img class="opp-card-1 dealt-card" src="assets/images/card-back.svg" alt="back of card">
+                                    <div class="card-body opp-hand-wrapper">
                                     </div>
                                 </div>
                             </div>
@@ -209,25 +206,22 @@
                         <span class="badge badge-pill badge-danger">Stand</span>
                     </h5>
                     <div class="container player-hand">
-                        <!-- <div class="row">
-                            <div class="col-sm">
+                        <div class="row">
+                            <div class="col-6">
                                 <div class="card bg-light border-success mb-3">
                                     <div class="card-header">Points</div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">18</h5>
-                                    </div>
+                                    <h5 class="card-title mt-2">18</h5>
                                 </div>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-6">
                                 <div class="card bg-light border-success mb-3">
                                     <div class="card-header">Bet</div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">$ 2,500</h5>
-                                    </div>
+                                    <h5 class="card-title mt-2">$ 2,500</h5>
                                 </div>
                             </div>
-                        </div> -->
-                        <div class="row">
+                        </div>
+                    
+                    <!-- <div class="row">
                             <div class="col-sm">
                                 <table class="table table-sm table-light text-center">
                                     <thead>
@@ -244,30 +238,32 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm">
-                                <div class="card bg-light border-success mb-3">
-                                    <!-- <div class="card-header">Hand</div> -->
-                                    <div class="card-body">
-                                    </div>
+                        </div> -->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="card bg-light hand-wrapper border-success mb-3">
+                                <!-- <div class="card-header">Hand</div> -->
+                                <div class="card-body player-hand-wrapper">
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm">
-                                <button type="button" class="btn btn-block btn-success mt-3 deal-game">Hit!</button>
-                            </div>
-                            <div class="col-sm">
-                                <button type="button" class="btn btn-block btn-outline-dark mt-3 exit-game">Stand</button>
-                            </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-block btn-success mt-1 deal-game">Hit!</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-block btn-outline-dark mt-1 exit-game">Stand</button>
                         </div>
                     </div>
-                    <!-- /.player-hand -->
                 </div>
             </div>
+                <!-- /.player-hand -->
+            </div>
         </div>
-        <!-- /.table-screen -->
+    </div>
+    <!-- /.table-screen -->
     </div>
     <!-- /.play-screen -->
     <div class="container top-level-screen profile-screen mb-3">

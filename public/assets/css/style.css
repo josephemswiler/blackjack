@@ -26,10 +26,13 @@ td {
 }
 
 .dealt-card {
-    float: left;
     height: 100%;
+    position: absolute;
+    top: 0;
 }
 
 .hand-wrapper {
-    height: 300px;
+    height: 100px;
+    /* border-radius: 13px; for 300px height*/
+    border-radius: 5px;
 }
