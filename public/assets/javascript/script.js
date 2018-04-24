@@ -413,14 +413,7 @@
                     playerCardCount = dealCard(playerHand[i].images.png, 'player', playerCardCount)
                 }
             })
-
-
-
-
-
     })
-
-
 
     function dealCard(card, player, index) {
 
@@ -428,10 +421,8 @@
 
         if (index === 0) {
             pos = '0px'
-        } else if (player === 'player') {
-            pos = `${(index-1) * 35}px`
         } else {
-            pos = `${index * 35}px`
+            pos = `${(index-1) * 35}px`
         }
 
         let backOfCard = $('<img>')
@@ -466,9 +457,12 @@
             }
         })
 
-        $(`.${player}-hand-wrapper`).append(backOfCard)
-
         index++
+
+        if (player === 'opp' && index === 2)
+            return index
+
+        $(`.${player}-hand-wrapper`).append(backOfCard)
 
         return index
     }
