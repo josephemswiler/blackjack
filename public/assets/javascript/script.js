@@ -71,6 +71,8 @@
             wins: 10,
             losses: 5,
             busts: 2,
+            bet: 0,
+            points: 0
         }, [])
     let playerJen = new Player(
         'jenems4',
@@ -87,6 +89,8 @@
             wins: 15,
             losses: 2,
             busts: 0,
+            bet: 0,
+            points: 0
         }, [])
     let playerMonster = new Player(
         'themon',
@@ -103,6 +107,8 @@
             wins: 2,
             losses: 21,
             busts: 2,
+            bet: 0,
+            points: 0
         }, [])
     let favoritesList = [playerJoe, playerJen, playerMonster]
 
@@ -330,32 +336,15 @@
 
         $('.current-bet').text(`$ ${result}`)
     })
-    //here play
-    // let newDeck = $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
-    //     .then(data => {
-    //     let drawnCard = $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=1`)
-    //     console.log(drawnCard)
-    // })
-
-    // let newDeck = $.get(`https://deckofcardsapi.com/api/deck/new/draw/?count=4`)
-    // .then(data => {
-    //     let deckId = data.deck_id
-    //     let cardCount = data.remaining
-    //     let cards = data.cards[0]
-    //     console.log(cards)
-    // })
 
     let gamePlay = false
     let deckId = ''
     let opponentHand = []
     let playerHand = []
-
-    // function firstDeal(id, oHand, pHand) {
-    //     console.log(id, oHand, pHand)
-    // }
-
     let oppCardCount = 1
     let playerCardCount = 1
+    let oppPoints = 0
+    let playerPoints = 0
 
     $.fn.extend({
         animateCss: function (animationName, callback) {
@@ -382,7 +371,7 @@
 
             return this
         },
-    })
+    }) //jQuery extend
 
     $('.deal-game').click(function () {
 
@@ -390,7 +379,7 @@
             .then(data => {
 
                 if (!gamePlay) {
-                    dealCard('assets/images/card-back.svg', 'opp', 0)
+                    dealCard('assets/images/card-back.svg', 'opp', 0, 0)
 
                     gamePlay = true
 
@@ -398,24 +387,71 @@
                 } else {}
             }).then(data => {
 
-                console.log(data)
+                // console.log(data)
                 deckId = data.deck_id
                 opponentHand.push(data.cards[0], data.cards[1])
                 playerHand.push(data.cards[2], data.cards[3])
-                console.log(opponentHand, playerHand)
+                // console.log(opponentHand, playerHand)
                 // firstDeal(deckId, opponentHand, playerHand)
 
                 for (let i in opponentHand) {
-                    oppCardCount = dealCard(opponentHand[i].images.png, 'opp', oppCardCount)
+                    oppCardCount = dealCard(opponentHand[i].images.png, 'opp', oppCardCount, opponentHand[i].value)
+                    $('.opp-points').text()
                 }
 
                 for (let i in playerHand) {
-                    playerCardCount = dealCard(playerHand[i].images.png, 'player', playerCardCount)
+                    playerCardCount = dealCard(playerHand[i].images.png, 'player', playerCardCount, playerHand[i].value)
                 }
             })
     })
 
-    function dealCard(card, player, index) {
+    $('.hit-btn').click(function () {
+
+        hitCard('player')
+
+    })
+
+    $('.stand-btn').click(function () {
+
+        let player = 'player'
+
+        $(`.${player}-status`)
+            .text('Stand')
+            .removeClass()
+            .addClass(`badge badge-pill ${player}-status badge-danger`)
+            .animateCss('rubberBand')
+    })
+
+
+    function hitCard(player) {
+        $.get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+            .then(data => {
+
+                console.log(data, data.cards[0])
+                playerHand.push(data.cards[0])
+
+                playerCardCount = dealCard(data.cards[0].images.png, player, playerCardCount, data.cards[0].value)
+
+                $(`.${player}-status`)
+                    .text('Hit!')
+                    .removeClass()
+                    .addClass(`badge badge-pill ${player}-status badge-warning`)
+                    .animateCss('wobble')
+            })
+    }
+
+
+    function dealCard(card, player, index, value) {
+
+        if (value === 'KING' || value === 'QUEEN' || value === 'JACK')
+            value = 10
+
+        if (value === 'ACE')
+            value = 11
+
+        // console.log(playerHand, opponentHand) //here execute logic to eval game status
+
+        $(`.${player}-points`).text(parseInt($(`.${player}-points`).text()) + parseInt(value))
 
         let pos = ''
 
@@ -465,7 +501,7 @@
         $(`.${player}-hand-wrapper`).append(backOfCard)
 
         return index
-    }
+    } //dealCard
 
 
     $(document).on('click', '.scroll-top', function () {

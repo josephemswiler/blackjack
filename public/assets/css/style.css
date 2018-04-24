@@ -36,3 +36,10 @@ td {
     /* border-radius: 13px; for 300px height*/
     border-radius: 5px;
 }
+
+@media(min-width: 991px) {
+    .hand-wrapper {
+        height: 175px;
+        border-radius: 8px;
+    }
+}
