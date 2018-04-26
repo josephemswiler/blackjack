@@ -43,19 +43,19 @@
                 <li class="nav-item">
                     <a class="nav-link" data-screen="about" href="#">About</a>
                 </li>
-                <li class="nav-item exit-nav">
-                    <a class="nav-link" data-screen="exit" href="#">Exit</a>
+                <li class="nav-item sign-out-nav">
+                    <a class="nav-link" data-screen="exit" href="#">Sign Out</a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="container top-level-screen play-screen mb-3">
         <div class="auth-screen">
-            <div class="card">
-                <div class="card-header">
+            <div class="card sign-in-card">
+                <div class="card-header sign-in-header">
                     Google Sign In
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body sign-in-body text-center">
                     <h5 class="card-title">Sign in with your Google Account!</h5>
                     <i class="fab fa-google text-dark mb-4 mt-2"></i>
                     <button type="button" class="btn btn-block btn-dark mb-2 google-btn">Sign In</button>
@@ -64,6 +64,11 @@
         </div>
         <!-- /.auth-screen -->
         <div class="opponent-screen">
+            <div class="card current-player mb-3">
+                <div class="card-header">
+                    Signed in as
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     Choose Opponent

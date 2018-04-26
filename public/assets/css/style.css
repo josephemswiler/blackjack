@@ -9,10 +9,13 @@ body {
     min-height: 100vh;
 }
 
-.exit-nav,
+.sign-out-nav,
 .profile-screen,
 .leaders-screen,
-.about-screen {
+.about-screen,
+.opponent-screen,
+.bets-screen,
+.table-screen {
     display: none;
 }
 

@@ -1,43 +1,4 @@
 (function () {
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyCib7BaMompwcBL6HfHHnHvg8prgDA_43I",
-        authDomain: "blackjack-jfe.firebaseapp.com",
-        databaseURL: "https://blackjack-jfe.firebaseio.com",
-        projectId: "blackjack-jfe",
-        storageBucket: "blackjack-jfe.appspot.com",
-        messagingSenderId: "740626139603"
-    }
-
-    firebase.initializeApp(config)
-
-    let db = firebase.database()
-
-    let provider = new firebase.auth.GoogleAuthProvider()
-
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        let token = result.credential.accessToken
-        // The signed-in user info.
-        let user = result.user
-        // ...
-    }).catch(function (error) {
-        // Handle Errors here.
-        let errorCode = error.code
-        let errorMessage = error.message
-        // The email of the user's account used.
-        let email = error.email
-        // The firebase.auth.AuthCredential type that was used.
-        let credential = error.credential
-        // ...
-    })
-
-    const addCommas = (x) => {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    let converter = new showdown.Converter()
-
     class Player {
         constructor(username, name, nickname, isActive, autheticated, opponent, style, favorites, stats, hand) {
             this.username = username
@@ -55,8 +16,67 @@
         makeBet() {
 
         }
-
     }
+    // Initialize Firebase
+    let config = {
+        apiKey: "AIzaSyCib7BaMompwcBL6HfHHnHvg8prgDA_43I",
+        authDomain: "blackjack-jfe.firebaseapp.com",
+        databaseURL: "https://blackjack-jfe.firebaseio.com",
+        projectId: "blackjack-jfe",
+        storageBucket: "blackjack-jfe.appspot.com",
+        messagingSenderId: "740626139603"
+    }
+
+    firebase.initializeApp(config)
+
+    let db = firebase.database()
+
+    $('.google-btn').click(function () {
+
+        let provider = new firebase.auth.GoogleAuthProvider()
+
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                let token = result.credential.accessToken
+                // The signed-in user info.
+                let user = result.user
+
+                let name = user.email.substr(0, user.email.indexOf('@'));
+
+                return result
+
+            })
+            .then(data => {
+
+                console.log(data)
+
+           
+                $('.sign-in-header').text(`Signed In as ${data.user.displayName}`).animate({
+                    opacity: 1
+                }, 1000)
+
+                $('.sign-in-card')
+                    .animateCss('flipOutX', function () {
+                        $('.sign-in-body').hide()
+
+                    })
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                let errorCode = error.code
+                let errorMessage = error.message
+                // The email of the user's account used.
+                let email = error.email
+                // The firebase.auth.AuthCredential type that was used.
+                let credential = error.credential
+            })
+    }) //click .google-btn
+
+    const addCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    let converter = new showdown.Converter()
 
     let leaderList = []
 
@@ -378,6 +398,7 @@
     }) //jQuery extend
 
     $('.deal-game').click(function () {
+
 
         $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
             .then(data => {
