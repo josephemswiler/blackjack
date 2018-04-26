@@ -52,6 +52,10 @@
             this.stats = stats
             this.hand = hand
         }
+        makeBet() {
+
+        }
+
     }
 
     let leaderList = []
@@ -396,7 +400,6 @@
 
                 for (let i in opponentHand) {
                     oppCardCount = dealCard(opponentHand[i].images.png, 'opp', oppCardCount, opponentHand[i].value)
-                    $('.opp-points').text()
                 }
 
                 for (let i in playerHand) {
@@ -406,9 +409,7 @@
     })
 
     $('.hit-btn').click(function () {
-
         hitCard('player')
-
     })
 
     $('.stand-btn').click(function () {
