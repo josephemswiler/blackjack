@@ -50,15 +50,22 @@
 
                 console.log(data)
 
-           
-                $('.sign-in-header').text(`Signed In as ${data.user.displayName}`).animate({
-                    opacity: 1
-                }, 1000)
-
                 $('.sign-in-card')
                     .animateCss('flipOutX', function () {
-                        $('.sign-in-body').hide()
+                        $('.sign-in-card')
+                            .hide()
 
+                        $('.auth-alert strong')
+                            .text(data.user.displayName)
+                        $('.auth-alert')
+                            .show()
+                            .animateCss('fadeInDown')
+                        $('.opponent-screen')
+                            .show()
+                            .animateCss('fadeInUp')
+                        $('.navbar-collapse')
+                            .show()
+                            .animateCss('slideInDown')
                     })
             })
             .catch(function (error) {
@@ -80,24 +87,22 @@
 
     let leaderList = []
 
-    let playerJoe = new Player(
-        'josephemswiler',
-        'Joseph Emswiler',
-        'King of Hearts',
-        false,
-        false,
+    let computerPlayer = new Player(
+        'computer',
+        'Computer',
+        'The House',
+        true,
+        true,
         '',
-        'Newbie', [
-            'jenems4',
-            'thisemail'
-        ], {
+        'Computational', [], {
             chips: 20000,
-            wins: 10,
-            losses: 5,
-            busts: 2,
+            wins: 0,
+            losses: 0,
+            busts: 0,
             bet: 0,
             points: 0
         }, [])
+
     let playerJen = new Player(
         'jenems4',
         'Jennifer Emswiler',
@@ -134,7 +139,7 @@
             bet: 0,
             points: 0
         }, [])
-    let favoritesList = [playerJoe, playerJen, playerMonster]
+    let favoritesList = [computerPlayer, playerJen, playerMonster]
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
         $.get(response.download_url, function (data) {
@@ -161,7 +166,20 @@
         }
     })
 
+    $('.alert-close').click(function () {
+        $('.opponent-screen')
+            .css({
+                'margin-top': '66px'
+            })
+            .animate({
+                'margin-top': 0
+            }, 1000)
+    })
+
     function loadFavorites(arr) {
+
+        let computerItem = null
+
         for (let i in arr) {
             let username = arr[i].username
             let currentId = `collapse-fav-${username}`
@@ -185,6 +203,19 @@
                 })
             let star = $('<i>')
                 .addClass('far fa-star text-dark mr-3')
+
+            if (username === 'computer') {
+                user
+                    .removeClass()
+                    .addClass('far fa-dot-circle text-dark mr-3')
+                    .attr({
+                        title: 'Computer is always online!'
+                    })
+                star
+                    .removeClass()
+                    .addClass('fas fa-star inactive text-dark mr-3')
+            }
+
             let item = $('<li>')
                 .addClass('list-group-item text-left')
                 .append(star, user, addBtn)
@@ -205,9 +236,19 @@
 
             statsWrapper.append(playBtn)
 
-            item.append(close).append(statsWrapper)
-            $('.fav-users').prepend(item)
+            if (username !== 'computer')
+                item.append(close)
+
+            item.append(statsWrapper)
+
+            if (username === 'computer')
+                computerItem = item
+
+            if (username !== 'computer')
+                $('.fav-users').prepend(item)
         }
+        if (computerItem)
+            $('.fav-users').prepend(computerItem)
     } // /loadFavorites
 
     function loadLeaders(arr) {
@@ -345,7 +386,7 @@
     //here
     loadFavorites(favoritesList)
     loadLeaders(favoritesList)
-    loadProfile(playerJoe)
+    loadProfile(computerPlayer)
 
     $('.bet-btn').click(function () {
 
@@ -398,6 +439,25 @@
     }) //jQuery extend
 
     $('.deal-game').click(function () {
+
+        $('.bets-screen')
+            .animateCss('fadeOutUp')
+        $('.opponent-screen')
+            .animateCss('fadeOutUp')
+
+        setTimeout(function () {
+            $('html, body')
+                .animate({
+                    scrollTop: 0
+                }, 100)
+            $('.table-screen')
+                .show()
+                .animateCss('fadeInUp')
+            $('.bets-screen')
+                .hide()
+            $('.opponent-screen')
+                .hide()
+        }, 500)
 
 
         $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
@@ -525,15 +585,49 @@
         return index
     } //dealCard
 
+    $(document).ready(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 500)
+    })
 
     $(document).on('click', '.scroll-top', function () {
-        $('html, body').animate({
-            scrollTop: ($(this).offset().top - 68)
+        let height = $('html, body').css('min-height')
+        let elHeight = 0
+        console.log()
+
+        let target = $(`${$(this)[0].dataset.target}`)
+        let scrollTo = $(this).offset().top
+
+        setTimeout(function () {
+            if (target.hasClass('show')) {
+
+                elHeight = parseInt(target.css('height').replace(/\D/g, ''))
+                let addHeight = parseInt(height.replace(/\D/g, '')) + elHeight
+
+                $('html, body')
+                    .css('min-height', `${addHeight}px`)
+                    .animate({
+                        scrollTop: (scrollTo - 68)
+                    }, 500)
+            } else {
+                let subHeight = parseInt(height.replace(/\D/g, '')) - elHeight
+
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 500)
+                setTimeout(function () {
+                    $('html, body').css('min-height', `${subHeight}px`)
+                }, 500)
+            }
         }, 500)
     })
 
     $(document).on("click", ".fa-star", function () {
         //here add function to add to favorites list
+        if ($(this).hasClass('inactive'))
+            return
+
         $(this)
             .toggleClass('text-dark')
             .toggleClass('text-warning')
@@ -623,6 +717,28 @@ Username`)
         $(this)
             .toggleClass('text-success')
             .toggleClass('text-danger')
+    })
+
+    $(document).on("click", ".request-opp", function () {
+        $('.auth-alert')
+            .animateCss('fadeOutUp')
+        $('.opponent-screen')
+            .animateCss('fadeOutUp')
+
+        setTimeout(function () {
+            $('html, body')
+                .css('min-height', `100vh`)
+                .animate({
+                    scrollTop: 0
+                }, 100)
+            $('.bets-screen')
+                .show()
+                .animateCss('fadeInUp')
+            $('.auth-alert')
+                .hide()
+            $('.opponent-screen')
+                .hide()
+        }, 500)
     })
 
     function loadSavedUsers() { //here refactor local storage then delete

@@ -63,12 +63,15 @@
             </div>
         </div>
         <!-- /.auth-screen -->
+        <div class="alert auth-alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> Success! Signed in as
+            <strong></strong>.
+            <button type="button" class="close alert-close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- /sign in alert -->
         <div class="opponent-screen">
-            <div class="card current-player mb-3">
-                <div class="card-header">
-                    Signed in as
-                </div>
-            </div>
             <div class="card">
                 <div class="card-header">
                     Choose Opponent
@@ -117,6 +120,14 @@
         </div>
         <!-- /.opponent-screen -->
         <div class="bets-screen">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Your Chips
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title current-bet">$ 2,500</h5>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     Place Your Bets
@@ -154,6 +165,7 @@
             </div>
         </div>
         <!-- /.bets-screen -->
+        <!-- GAME PLAY -->
         <div class="table-screen">
             <div class="card">
                 <div class="card-header">

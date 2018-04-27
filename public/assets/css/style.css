@@ -14,8 +14,10 @@ body {
 .leaders-screen,
 .about-screen,
 .opponent-screen,
-.bets-screen,
-.table-screen {
+/* .bets-screen, */
+.table-screen,
+.auth-alert,
+.navbar-collapse {
     display: none;
 }
 
