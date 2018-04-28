@@ -54,7 +54,6 @@
                     .animateCss('flipOutX', function () {
                         $('.sign-in-card')
                             .hide()
-
                         $('.auth-alert strong')
                             .text(data.user.displayName)
                         $('.auth-alert')
@@ -63,9 +62,8 @@
                         $('.opponent-screen')
                             .show()
                             .animateCss('fadeInUp')
-                        $('.navbar-collapse')
-                            .show()
-                            .animateCss('slideInDown')
+                        $('.nav-link')
+                            .fadeIn()
                     })
             })
             .catch(function (error) {
@@ -388,18 +386,94 @@
     loadLeaders(favoritesList)
     loadProfile(computerPlayer)
 
+    // $(document).on('click', '.reset-btn', function () { //nav load?????????
+    //     $(this)
+    //         .animateCss('flipOutX', function () {
+    //             $('.exit-game')
+    //                 .removeClass('exit-game btn-outline-dark')
+    //                 .addClass('reset-btn btn-dark')
+    //                 .text('Reset')
+    //                 .hide()
+    //             setTimeout(function () {
+    //                 $('.reset-btn')
+    //                     .show()
+    //                     .animateCss('flipInX')
+    //             }, 100)
+    //             // $('.all-in')
+    //             //     .animateCss('bounceOut', function () {
+    //             //         $('.all-in')
+    //             //             .remove()
+    //             //         $('.betting')
+    //             //             .children()
+    //             //             .animateCss('bounceIn')
+    //             //     })
+    //         })
+
     $('.bet-btn').click(function () {
 
+        let chips = parseInt($('.current-chips').text().replace(/\D/g, ''))
+
         if ($(this).text() === 'Reset') {
-            $('.current-bet').text('$ 0')
+            $('.current-bet').reomveClass('text-danger').text('$ 0')
             return
         }
 
         let currentBet = parseInt($('.current-bet').text().replace(/\D/g, ''))
         let currentAdd = parseInt($(this).text().split(' ').splice(1, 1).join(''))
-        let result = addCommas(currentBet + currentAdd)
+        let result = currentBet + currentAdd
 
-        $('.current-bet').text(`$ ${result}`)
+        if (result > chips) {
+            result = chips
+            let btn = $('<button>')
+                .attr('type', 'button')
+                .addClass('btn deal-game all-in btn-block btn-outline-danger mt-3')
+                .text(`Whoa! You're all in at ${addCommas(result)}! Let's play!`)
+            let div = $('<div>')
+                .addClass('col-12')
+                .append(btn)
+                .animateCss('bounceIn')
+            let reset = $('<button>')
+                .attr('type', 'button')
+                .addClass('btn reset-btn btn-block btn-outline-dark mt-3')
+                .text(`Reset`)
+            let resetDiv = $('<div>')
+                .addClass('col-sm')
+                .append(reset)
+                .animateCss('bounceIn')
+
+            $('.current-bet')
+                .addClass('text-danger')
+                .text(`$ ${addCommas(result)}`)
+            $('.bet-btn')
+                .animateCss('bounceOut', function () {
+                    $('.bet-btn')
+                        .hide()
+                    $('.betting')
+                        .append(div)
+                    $('.exit-game')
+                        .animateCss('flipOutX', function () {
+                            $('.exit-game')
+                                .removeClass('exit-game btn-outline-dark')
+                                .addClass('reset-btn btn-dark')
+                                .text('Reset')
+                                .hide()
+                            setTimeout(function () {
+                                $('.reset-btn')
+                                    .show()
+                                    .animateCss('flipInX')
+                            }, 100)
+
+                        })
+
+
+                })
+
+
+
+            return
+        }
+
+        $('.current-bet').text(`$ ${addCommas(result)}`)
     })
 
     let gamePlay = false
@@ -438,11 +512,9 @@
         },
     }) //jQuery extend
 
-    $('.deal-game').click(function () {
+    $(document).on('click', '.deal-game', function () {
 
         $('.bets-screen')
-            .animateCss('fadeOutUp')
-        $('.opponent-screen')
             .animateCss('fadeOutUp')
 
         setTimeout(function () {
@@ -455,38 +527,37 @@
                 .animateCss('fadeInUp')
             $('.bets-screen')
                 .hide()
-            $('.opponent-screen')
-                .hide()
         }, 500)
 
+        setTimeout(function () {
+            $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
+                .then(data => {
 
-        $.get('https://deckofcardsapi.com/api/deck/new/shuffle/')
-            .then(data => {
+                    if (!gamePlay) {
+                        dealCard('assets/images/card-back.svg', 'opp', 0, 0)
 
-                if (!gamePlay) {
-                    dealCard('assets/images/card-back.svg', 'opp', 0, 0)
+                        gamePlay = true
 
-                    gamePlay = true
+                        return $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=4`)
+                    } else {}
+                }).then(data => {
 
-                    return $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=4`)
-                } else {}
-            }).then(data => {
+                    // console.log(data)
+                    deckId = data.deck_id
+                    opponentHand.push(data.cards[0], data.cards[1])
+                    playerHand.push(data.cards[2], data.cards[3])
+                    // console.log(opponentHand, playerHand)
+                    // firstDeal(deckId, opponentHand, playerHand)
 
-                // console.log(data)
-                deckId = data.deck_id
-                opponentHand.push(data.cards[0], data.cards[1])
-                playerHand.push(data.cards[2], data.cards[3])
-                // console.log(opponentHand, playerHand)
-                // firstDeal(deckId, opponentHand, playerHand)
+                    for (let i in opponentHand) {
+                        oppCardCount = dealCard(opponentHand[i].images.png, 'opp', oppCardCount, opponentHand[i].value)
+                    }
 
-                for (let i in opponentHand) {
-                    oppCardCount = dealCard(opponentHand[i].images.png, 'opp', oppCardCount, opponentHand[i].value)
-                }
-
-                for (let i in playerHand) {
-                    playerCardCount = dealCard(playerHand[i].images.png, 'player', playerCardCount, playerHand[i].value)
-                }
-            })
+                    for (let i in playerHand) {
+                        playerCardCount = dealCard(playerHand[i].images.png, 'player', playerCardCount, playerHand[i].value)
+                    }
+                })
+        }, 1000)
     })
 
     $('.hit-btn').click(function () {

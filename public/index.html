@@ -24,7 +24,7 @@
 
 <body class="text-dark">
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light mb-3">
-        <a class="navbar-brand" href="#">Blackjack</a>
+            <a class="navbar-brand" href="#">Blackjack</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -125,7 +125,7 @@
                     Your Chips
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title current-bet">$ 2,500</h5>
+                    <h5 class="card-title current-chips">$ 2,500</h5>
                 </div>
             </div>
             <div class="card">
@@ -135,7 +135,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title current-bet">$ 0</h5>
                     <div class="container">
-                        <div class="row">
+                        <div class="row betting">
                             <div class="col-sm">
                                 <button type="button" class="btn bet-btn btn-block btn-outline-danger mt-3">$ 10</button>
                             </div>
@@ -226,7 +226,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-6">
                                 <button type="button" class="btn btn-block btn-success mt-1 hit-btn">Hit!</button>
@@ -236,14 +235,15 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /.player-hand -->
                 </div>
-                <!-- /.player-hand -->
+                <!-- /.card-body -->
             </div>
+            <!-- /.card -->
         </div>
+        <!-- /.table-screen -->
     </div>
-    <!-- /.table-screen -->
-    </div>
-    <!-- /.play-screen -->
+    <!-- /.top-level-screen /.play-screen -->
     <div class="container top-level-screen profile-screen mb-3">
         <div class="card">
             <div class="card-header profile-name">
@@ -260,7 +260,7 @@
             </div>
         </div>
     </div>
-    <!-- /.profile-screen -->
+    <!-- /.top-level-screen /.profile-screen -->
     <div class="container top-level-screen leaders-screen mb-3">
         <div class="card">
             <div class="card-header">
@@ -272,7 +272,7 @@
             </div>
         </div>
     </div>
-    <!-- /.leaders-screen -->
+    <!-- /.top-level-screen /.leaders-screen -->
     <div class="container top-level-screen about-screen mb-3">
         <div class="card">
             <div class="card-header">
@@ -291,7 +291,7 @@
             </div>
         </div>
     </div>
-    <!-- /.about-screen -->
+    <!-- /.top-level-screen /.about-screen -->
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
