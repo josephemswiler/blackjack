@@ -386,16 +386,16 @@
     loadLeaders(favoritesList)
     loadProfile(computerPlayer)
 
-    // $(document).on('click', '.reset-btn', function () { //nav load?????????
+    // $(document).on('click', '.reset-btn', function () { //nav load????????? also, toggle waiting for opponent at the hit button
     //     $(this)
     //         .animateCss('flipOutX', function () {
-    //             $('.exit-game')
-    //                 .removeClass('exit-game btn-outline-dark')
-    //                 .addClass('reset-btn btn-dark')
+    //             $('.reset-btn')
+    //                 .addClass('exit-game btn-outline-dark')
+    //                 .removeClass('reset-btn btn-dark')
     //                 .text('Reset')
     //                 .hide()
     //             setTimeout(function () {
-    //                 $('.reset-btn')
+    //                 $('.exit-btn')
     //                     .show()
     //                     .animateCss('flipInX')
     //             }, 100)
@@ -408,22 +408,29 @@
     //             //             .animateCss('bounceIn')
     //             //     })
     //         })
+    //     })
 
     $('.bet-btn').click(function () {
 
         let chips = parseInt($('.current-chips').text().replace(/\D/g, ''))
-
+        
         if ($(this).text() === 'Reset') {
-            $('.current-bet').reomveClass('text-danger').text('$ 0')
+            $('.current-bet').removeClass('text-danger').text('$ 0')
             return
         }
-
+        
         let currentBet = parseInt($('.current-bet').text().replace(/\D/g, ''))
         let currentAdd = parseInt($(this).text().split(' ').splice(1, 1).join(''))
         let result = currentBet + currentAdd
 
-        if (result > chips) {
+        console.log($(this).hasClass('inactive'))
+
+        console.log('hello')
+
+        if (result > chips && !($(this).hasClass('inactive'))) {
             result = chips
+            allIn(result)
+            
             let btn = $('<button>')
                 .attr('type', 'button')
                 .addClass('btn deal-game all-in btn-block btn-outline-danger mt-3')
@@ -440,11 +447,11 @@
                 .addClass('col-sm')
                 .append(reset)
                 .animateCss('bounceIn')
-
             $('.current-bet')
                 .addClass('text-danger')
                 .text(`$ ${addCommas(result)}`)
             $('.bet-btn')
+                .addClass('inactive')
                 .animateCss('bounceOut', function () {
                     $('.bet-btn')
                         .hide()
@@ -462,14 +469,8 @@
                                     .show()
                                     .animateCss('flipInX')
                             }, 100)
-
                         })
-
-
                 })
-
-
-
             return
         }
 
