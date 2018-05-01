@@ -24,7 +24,7 @@
 
 <body class="text-dark">
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light mb-3">
-            <a class="navbar-brand" href="#">Blackjack</a>
+        <a class="navbar-brand" href="#">Blackjack</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -119,7 +119,11 @@
             </div>
         </div>
         <!-- /.opponent-screen -->
-        <div class="bets-screen">
+        <div class="alert alert-danger bet-alert alert-dismissible fade show" role="alert">
+            <strong>$ 0 bet?</strong> C'mon - let's put some chips on the table!
+        </div>
+        <!-- /$ 0 bet alert -->
+        <div class="bet-screen">
             <div class="card mb-3">
                 <div class="card-header">
                     Your Chips
@@ -164,7 +168,7 @@
                 </div>
             </div>
         </div>
-        <!-- /.bets-screen -->
+        <!-- /.bet-screen -->
         <!-- GAME PLAY -->
         <div class="table-screen">
             <div class="card">
@@ -214,7 +218,7 @@
                             <div class="col-6">
                                 <div class="card bg-light border-success mb-3">
                                     <div class="card-header">Bet</div>
-                                    <h5 class="card-title mt-2">$ 2,500</h5>
+                                    <h5 class="card-title mt-2 player-bet">$ 0</h5>
                                 </div>
                             </div>
                         </div>
@@ -222,6 +226,9 @@
                             <div class="col-sm">
                                 <div class="card bg-light hand-wrapper border-success mb-3">
                                     <div class="card-body player-hand-wrapper">
+                                    </div>
+                                    <div class="player-message">
+                                        <div></div>
                                     </div>
                                 </div>
                             </div>

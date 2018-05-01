@@ -164,15 +164,28 @@
         }
     })
 
+    $("[data-hide]").on("click", function () {
+        $("." + $(this).attr("data-hide")).hide()
+    })
+
     $('.alert-close').click(function () {
-        $('.opponent-screen')
+        let divClass = ''
+
+        if ($(this).parent().hasClass('auth-alert'))
+            divClass = '.opponent-screen'
+
+        smoothClose(divClass)
+    })
+
+    function smoothClose(divClass) {
+        $(divClass)
             .css({
                 'margin-top': '66px'
             })
             .animate({
                 'margin-top': 0
             }, 1000)
-    })
+    }
 
     function loadFavorites(arr) {
 
@@ -386,51 +399,71 @@
     loadLeaders(favoritesList)
     loadProfile(computerPlayer)
 
-    // $(document).on('click', '.reset-btn', function () { //nav load????????? also, toggle waiting for opponent at the hit button
-    //     $(this)
-    //         .animateCss('flipOutX', function () {
-    //             $('.reset-btn')
-    //                 .addClass('exit-game btn-outline-dark')
-    //                 .removeClass('reset-btn btn-dark')
-    //                 .text('Reset')
-    //                 .hide()
-    //             setTimeout(function () {
-    //                 $('.exit-btn')
-    //                     .show()
-    //                     .animateCss('flipInX')
-    //             }, 100)
-    //             // $('.all-in')
-    //             //     .animateCss('bounceOut', function () {
-    //             //         $('.all-in')
-    //             //             .remove()
-    //             //         $('.betting')
-    //             //             .children()
-    //             //             .animateCss('bounceIn')
-    //             //     })
-    //         })
-    //     })
+    $(document).on('click', '.reset-btn', function () { //here nav load????????? also, toggle waiting for opponent at the hit button
+
+        $('.current-bet')
+            .removeClass('text-danger')
+            .text('$ 0')
+        $(this)
+            .animateCss('flipOutX', function () {
+                $('.reset-btn')
+                    .addClass('exit-game btn-outline-dark')
+                    .removeClass('reset-btn btn-dark')
+                    .text('Exit')
+                    .hide()
+                setTimeout(function () {
+                    $('.exit-game')
+                        .show()
+                        .animateCss('flipInX')
+                }, 100)
+                $('.all-in')
+                    .animateCss('bounceOut', function () {
+                        $('.all-in')
+                            .remove()
+                        $('.bet-btn')
+                            .removeClass('inactive')
+                            .show()
+                            .animateCss('bounceIn')
+                    })
+            })
+    })
+
+    $(document).on('click', '.exit-game', function () {
+        $('.bet-screen')
+            .removeClass('animated fadeInUp')
+            .animateCss('fadeOutDown')
+
+        $('.fav-users li div.show').removeClass('show')
+
+        setTimeout(function () {
+
+            $('.opponent-screen')
+                .removeClass('animated fadeOutUp')
+                .show()
+                .animateCss('fadeInDown')
+            $('.bet-screen')
+                .hide()
+        }, 500)
+    })
 
     $('.bet-btn').click(function () {
 
+        if ($(this).hasClass('inactive')) //here when init betting remove class
+            return
+
         let chips = parseInt($('.current-chips').text().replace(/\D/g, ''))
-        
+
         if ($(this).text() === 'Reset') {
             $('.current-bet').removeClass('text-danger').text('$ 0')
             return
         }
-        
+
         let currentBet = parseInt($('.current-bet').text().replace(/\D/g, ''))
         let currentAdd = parseInt($(this).text().split(' ').splice(1, 1).join(''))
         let result = currentBet + currentAdd
 
-        console.log($(this).hasClass('inactive'))
-
-        console.log('hello')
-
-        if (result > chips && !($(this).hasClass('inactive'))) {
+        if (result > chips) {
             result = chips
-            allIn(result)
-            
             let btn = $('<button>')
                 .attr('type', 'button')
                 .addClass('btn deal-game all-in btn-block btn-outline-danger mt-3')
@@ -475,6 +508,13 @@
         }
 
         $('.current-bet').text(`$ ${addCommas(result)}`)
+        $('.player-bet').text(`$ ${addCommas(result)}`)
+
+        if ($('.bet-alert').css('display') === 'block') {
+            $('.bet-alert')
+                .hide()
+            smoothClose('.bet-screen')
+        }
     })
 
     let gamePlay = false
@@ -514,8 +554,17 @@
     }) //jQuery extend
 
     $(document).on('click', '.deal-game', function () {
+        
+        if (parseInt($('.current-bet').text().replace(/\D/g, '')) === 0) {
+            
+            $('.bet-alert').show().animateCss('bounceIn')
+            return
+        }
 
-        $('.bets-screen')
+        $('.bet-btn')
+            .removeClass('inactive')
+
+        $('.bet-screen')
             .animateCss('fadeOutUp')
 
         setTimeout(function () {
@@ -526,7 +575,7 @@
             $('.table-screen')
                 .show()
                 .animateCss('fadeInUp')
-            $('.bets-screen')
+            $('.bet-screen')
                 .hide()
         }, 500)
 
@@ -605,7 +654,21 @@
 
         // console.log(playerHand, opponentHand) //here execute logic to eval game status
 
-        $(`.${player}-points`).text(parseInt($(`.${player}-points`).text()) + parseInt(value))
+        let totalPoints = parseInt($(`.${player}-points`).text()) + parseInt(value)
+
+        $(`.${player}-points`).text(totalPoints)
+
+        if (totalPoints > 21) {
+
+            $('.player-message div')
+                .text('BUST!')
+                .addClass('text-danger')
+                .animateCss('tada')
+
+            $('.player-message')
+                .show()
+                .animateCss('zoomIn')
+        }
 
         let pos = ''
 
@@ -792,9 +855,12 @@ Username`)
     })
 
     $(document).on("click", ".request-opp", function () {
+        $('.current-bet')
+            .text(`$ 0`)
         $('.auth-alert')
             .animateCss('fadeOutUp')
         $('.opponent-screen')
+            .removeClass('animated fadeInDown')
             .animateCss('fadeOutUp')
 
         setTimeout(function () {
@@ -803,7 +869,8 @@ Username`)
                 .animate({
                     scrollTop: 0
                 }, 100)
-            $('.bets-screen')
+            $('.bet-screen')
+                .removeClass('animated fadeOutDown')
                 .show()
                 .animateCss('fadeInUp')
             $('.auth-alert')
@@ -812,6 +879,8 @@ Username`)
                 .hide()
         }, 500)
     })
+
+
 
     function loadSavedUsers() { //here refactor local storage then delete
         $('.saved-profiles').empty()
