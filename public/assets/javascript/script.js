@@ -12,6 +12,7 @@
             this.favorites = favorites
             this.stats = stats
             this.hand = hand
+            //standing = false, set to true when stand clicked
             //selfView visible hand
             //hand
             //points
@@ -642,13 +643,29 @@
             .addClass(`badge badge-pill ${player}-status badge-danger`)
             .animateCss('rubberBand')
 
-        //here check if both are standing, then end game
+        //here check if both are standing, then run evaluateGame()
+        evaluteGame()
 
         $('.hit-btn').animateCss('fadeOutDown', function() {
             $('.hit-btn').hide()
         })
     })
 
+    function evaluteGame() {
+        let oppPoints = parseInt($('.opp-points').text())
+        let playerPoints = parseInt($('.player-points').text())
+
+        console.log(oppPoints, playerPoints)
+
+        if(oppPoints === playerPoints) {
+            console.log('DRAW')
+        } else if (oppPoints > playerPoints) {
+            console.log('opp wins')
+        } else if (oppPoints < playerPoints) {
+            console.log('player wins')
+        }
+
+    }
 
     function hitCard(player) {
         $.get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
