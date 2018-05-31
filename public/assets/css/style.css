@@ -21,7 +21,8 @@ body {
 .auth-alert,
 .bet-alert,
 .nav-link,
-.player-message {
+.player-message,
+.play-again {
     display: none;
 }
 

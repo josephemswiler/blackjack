@@ -12,11 +12,24 @@
             this.favorites = favorites
             this.stats = stats
             this.hand = hand
+            //selfView visible hand
+            //hand
+            //points
+            //opponentView visible hand
+            //
         }
         makeBet() {
 
         }
     }
+
+    //playerOne listener
+    //playerOne play >>
+    //playerTwo listener
+    //playerTwo play
+
+    //listening for opp player
+
     // Initialize Firebase
     let config = {
         apiKey: "AIzaSyCib7BaMompwcBL6HfHHnHvg8prgDA_43I",
@@ -137,6 +150,7 @@
             bet: 0,
             points: 0
         }, [])
+
     let favoritesList = [computerPlayer, playerJen, playerMonster]
 
     $.get('https://api.github.com/repos/josephemswiler/blackjack/readme').then(function (response) {
@@ -518,6 +532,7 @@
     })
 
     let gamePlay = false
+    let gameOver = false
     let deckId = ''
     let opponentHand = []
     let playerHand = []
@@ -554,9 +569,9 @@
     }) //jQuery extend
 
     $(document).on('click', '.deal-game', function () {
-        
+
         if (parseInt($('.current-bet').text().replace(/\D/g, '')) === 0) {
-            
+
             $('.bet-alert').show().animateCss('bounceIn')
             return
         }
@@ -574,7 +589,9 @@
                 }, 100)
             $('.table-screen')
                 .show()
+                .removeClass('animated fadeOutDown')
                 .animateCss('fadeInUp')
+
             $('.bet-screen')
                 .hide()
         }, 500)
@@ -644,7 +661,11 @@
     }
 
 
+
     function dealCard(card, player, index, value) {
+
+        if(gameOver)
+            return
 
         if (value === 'KING' || value === 'QUEEN' || value === 'JACK')
             value = 10
@@ -668,6 +689,8 @@
             $('.player-message')
                 .show()
                 .animateCss('zoomIn')
+
+            endGame()
         }
 
         let pos = ''
@@ -720,6 +743,55 @@
         return index
     } //dealCard
 
+    function endGame() {
+
+        gameOver = true
+
+        $('.player-option-btn').animateCss('fadeOutDown', function () {
+            $('.player-option-btn').hide()
+            $('.play-again').show()
+            $('.play-again-btn').animateCss('fadeInDown')
+        })
+    } //endGame
+
+    $('.play-again-btn').on('click', function () {
+
+        gameOver = false
+        gamePlay = false
+
+        //reset bet, points, cards
+
+        $('.table-screen')
+            .removeClass('animated fadeInUp')
+            .animateCss('fadeOutDown')
+
+        $('.fav-users li div.show').removeClass('show')
+
+        setTimeout(function () {
+            $('.bet-screen')
+                .removeClass('animated fadeOutUp')
+                .show()
+                .animateCss('fadeInDown')
+            $('.table-screen')
+                .hide()
+            //-/-/-/-/ reset game space /-/-/-/-//
+            deckId = ''
+            opponentHand = []
+            playerHand = []
+            oppCardCount = 1
+            playerCardCount = 1
+            oppPoints = 0
+            playerPoints = 0
+            $('.current-bet').text('$ 0')
+            $('.player-points').text('0')
+            $('.opp-points').text('0')
+            $('.dealt-card').remove()
+            $('.player-message').hide()
+
+
+        }, 500)
+    }) //play-again-btn click
+
     $(document).ready(function () {
         $('html, body').animate({
             scrollTop: 0
@@ -729,8 +801,6 @@
     $(document).on('click', '.scroll-top', function () {
         let height = $('html, body').css('min-height')
         let elHeight = 0
-        console.log()
-
         let target = $(`${$(this)[0].dataset.target}`)
         let scrollTo = $(this).offset().top
 
