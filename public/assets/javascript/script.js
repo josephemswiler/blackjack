@@ -633,13 +633,20 @@
 
     $('.stand-btn').click(function () {
 
-        let player = 'player'
+        let player = 'player' //here find player
 
         $(`.${player}-status`)
             .text('Stand')
-            .removeClass()
+            .show()
+            .removeClass('animated wobble badge-warning')
             .addClass(`badge badge-pill ${player}-status badge-danger`)
             .animateCss('rubberBand')
+
+        //here check if both are standing, then end game
+
+        $('.hit-btn').animateCss('fadeOutDown', function() {
+            $('.hit-btn').hide()
+        })
     })
 
 
@@ -654,7 +661,8 @@
 
                 $(`.${player}-status`)
                     .text('Hit!')
-                    .removeClass()
+                    .show()
+                    .removeClass('animated rubberBand badge-danger')
                     .addClass(`badge badge-pill ${player}-status badge-warning`)
                     .animateCss('wobble')
             })
@@ -787,7 +795,11 @@
             $('.opp-points').text('0')
             $('.dealt-card').remove()
             $('.player-message').hide()
-
+            $('.play-again').hide()
+            $('.player-option-btn').removeClass('animated fadeOutDown').show()
+            $('.player-status').hide()
+            $('.opp-status').hide()
+            $('.hit-btn').removeClass('animated fadeOutDown')
 
         }, 500)
     }) //play-again-btn click
