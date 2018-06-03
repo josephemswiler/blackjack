@@ -10,14 +10,14 @@ body {
     min-height: 100vh;
 }
 
-.auth-screen, /* delete this */
+/* .auth-screen, */
 .sign-out-nav,
 .profile-screen,
 .leaders-screen,
 .about-screen,
 .opponent-screen,
-/* .bet-screen, */
-/* .table-screen, */
+.bet-screen,
+.table-screen,
 .auth-alert,
 .bet-alert,
 .nav-link,

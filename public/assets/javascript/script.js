@@ -664,7 +664,7 @@
         } else if (oppPoints < playerPoints) {
             console.log('player wins')
         }
-
+        endGame()
     }
 
     function hitCard(player) {
@@ -715,7 +715,7 @@
                 .show()
                 .animateCss('zoomIn')
 
-            endGame()
+            evaluteGame()
         }
 
         let pos = ''
