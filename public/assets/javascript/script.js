@@ -44,6 +44,7 @@
     firebase.initializeApp(config)
 
     let db = firebase.database()
+    let localUser = new Object()
 
     $('.google-btn').click(function () {
 
